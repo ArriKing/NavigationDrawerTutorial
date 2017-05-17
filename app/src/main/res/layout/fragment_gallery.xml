@@ -1,0 +1,118 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.example.marco.navigationdrawertutorial.GalleryFragment">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:id="@+id/linearLayout"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/nav_header_height">
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
+        android:text="Ricerca percorso aule"
+        android:layout_below="@+id/chk_All"
+        android:layout_toEndOf="@+id/textView2" />
+
+    <Spinner
+        android:id="@+id/spinner_begin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/Orai_Lezioni"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_toStartOf="@+id/textView3"></Spinner>
+
+    <Spinner
+        android:id="@+id/spinner_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/Orai_Lezioni"
+        android:layout_alignTop="@+id/linearLayout"
+        android:layout_alignParentEnd="true"></Spinner>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Orario Inizio"
+        android:layout_alignBottom="@+id/spinner_begin"
+        android:layout_toStartOf="@+id/spinner_begin"
+        android:layout_marginEnd="9dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Orario Fine"
+        android:layout_alignBaseline="@+id/spinner_end"
+        android:layout_alignBottom="@+id/spinner_end"
+        android:layout_toStartOf="@+id/spinner_end" />
+
+
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="34dp"
+        android:text="INSERICI L'INTERVALLO DI ORARIO:"
+        android:textStyle="bold"
+        android:layout_above="@+id/spinner_begin"
+        android:layout_alignStart="@+id/textView2" />
+
+    <CheckBox
+        android:id="@+id/chk_A"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edificio A"
+        android:layout_alignBaseline="@+id/chk_B"
+        android:layout_alignBottom="@+id/chk_B"
+        android:layout_alignStart="@+id/textView2"
+        />
+
+    <CheckBox
+        android:id="@+id/chk_B"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edificio B"
+        android:layout_above="@+id/chk_All"
+        android:layout_alignEnd="@+id/chk_All"
+        android:layout_marginBottom="14dp"
+        android:onClick="onCheckboxClicked"/>
+
+    <CheckBox
+        android:id="@+id/chk_C"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edificio C"
+        android:layout_alignBaseline="@+id/chk_B"
+        android:layout_alignBottom="@+id/chk_B"
+        android:layout_toEndOf="@+id/textView4"
+        android:layout_marginStart="10dp"
+        android:onClick="onCheckboxClicked"/>
+
+    <CheckBox
+        android:id="@+id/chk_All"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tutti gli edifici"
+        android:layout_centerVertical="true"
+        android:layout_alignEnd="@+id/textView4"
+        android:layout_marginEnd="11dp"
+        android:onClick="onCheckboxClicked"/>
+
+
+</RelativeLayout>
