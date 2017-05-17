@@ -10,7 +10,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="50dp"
-    tools:context="com.example.marco.navigationdrawertutorial.MainFragment">
+    tools:context="com.example.marco.navigationdrawertutorial.BachecaFragment">
 
     <TextView
         style="@style/CustomTextView"

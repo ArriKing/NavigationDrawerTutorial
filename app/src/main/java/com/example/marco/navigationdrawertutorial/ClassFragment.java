@@ -12,27 +12,24 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
-
-import static java.lang.Boolean.TRUE;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GalleryFragment extends DialogFragment {
+public class ClassFragment extends DialogFragment {
     private String BOT;
     private String EOT;
     private int A,B,C,All;
     Activity context;
+
+    //CREARE UN FRAGMENT
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context=getActivity();
         //Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_gallery, container, false);
+        return inflater.inflate(R.layout.fragment_class, container, false);
     }
 //VARIABILI GLOBALI PER SALVARE IL VALORE SELEZIONATO NELLO SPINNER
     private void tempo_inizio(String t){
