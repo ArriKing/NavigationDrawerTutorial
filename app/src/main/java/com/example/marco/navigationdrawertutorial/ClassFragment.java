@@ -21,7 +21,7 @@ import android.widget.Spinner;
 public class ClassFragment extends DialogFragment {
     private String BOT;
     private String EOT;
-    private int A,B,C,All;
+    private int A,B,C,All,firstPos;
     Activity context;
 
     //CREARE UN FRAGMENT
