@@ -103,7 +103,7 @@ public class ClassFragment extends DialogFragment {
         bt.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 //create an Intent object
-                Intent intent=new Intent(context, SecondActivity.class);
+                Intent intent=new Intent(context, OrariAuleActivity.class);
                // CheckBox chkA = (CheckBox) context.findViewById(R.id.chk_A);
                 //add data to the Intent object
 

@@ -1,41 +1,107 @@
 package com.example.marco.navigationdrawertutorial;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 /**
  * Created by Marco on 17/05/2017.
  */
 
-public class BachecaFragment extends Fragment {
+public class BachecaFragment extends DialogFragment {
 
-    public BachecaFragment() {
-        // Required empty public constructor
-    }
+    ListView myList;
+    Button getChoice;
+    Activity context;
+    //String[] Corsi_di_laurea;
 
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_bacheca, container, false);
-
-       // Button newPage = (Button)v.findViewById(R.id.button1);
-       /* newPage.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ProvaActivity.class);
-                // intent.putExtra("message", message);
-                //getActivity().startActivity(intent);
-                startActivity(intent);
-            }
-        });*/
-        return v;
+        context=getActivity();
+        //Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_bacheca, container, false);
     }
+
+
+    public void onStart(){
+        super.onStart();
+
+//        final List<Corsi> corso = new ArrayList<>();
+//        corso.add(new Corsi("38021","Analisi I",false));
+//        corso.add(new Corsi("38022","Analisi II",false));
+//        corso.add(new Corsi("38023","Fisica I",false));
+//        corso.add(new Corsi("38024","Fisica II",false));
+//        corso.add(new Corsi("38025","Chimica",false));
+//        corso.add(new Corsi("38026","Informatica I",false));
+//        corso.add(new Corsi("38027","Basi di dati",false));
+//
+//
+//
+//        Toast.makeText(getActivity(), Corsi_di_laurea[4], Toast.LENGTH_LONG).show();
+
+        String[] Corsi_di_laurea = {
+                "Analisi I",
+                "Fisica I",
+                "Chimica",
+                "Informatica I",
+                "Calcolatori elettronici",
+                "Informatica II",
+                "Fisica II",
+                "Sistemi operativi",
+                "Geometria e algebra lineare",
+                "Fondamenti di automatica",
+                "Economia e organizzzazione aziendale",
+                "Fondamenti di elettronica"
+        };
+
+        myList = (ListView)context.findViewById(R.id.list);
+
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_multiple_choice, Corsi_di_laurea);
+
+        myList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        myList.setAdapter(adapter);
+
+        Button getChoice=(Button)context.findViewById(R.id.getchoice);
+        getChoice.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+
+                // TODO Auto-generated method stub
+
+                //String[] selected = new String[0];
+                String selected="";
+                int cntChoice = myList.getCount();
+
+                SparseBooleanArray sparseBooleanArray = myList.getCheckedItemPositions();
+                int k=0;
+                for(int i = 0; i < cntChoice; i++){
+
+                    if(sparseBooleanArray.get(i)) {
+
+                        selected+= myList.getItemAtPosition(i).toString() + ",";
+
+                    }
+                }
+
+                Intent intent=new Intent(context, BachecaActivity.class);
+                intent.putExtra("c_list", selected);
+                startActivity(intent);
+                //Toast.makeText(getActivity(),selected, Toast.LENGTH_LONG).show();
+            }});
+
+
+    }
+
 }
+
+

@@ -5,17 +5,15 @@ package com.example.marco.navigationdrawertutorial;
  */
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.widget.TextView;
 
-public class SecondActivity extends AppCompatActivity {
+public class OrariAuleActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comunication);
+        setContentView(R.layout.percorso_di_studio);
         //inserisce la freccia di ritorno alla home
         //PROBLEMA:torna alla home,non al suo fragment ma al main fragment
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

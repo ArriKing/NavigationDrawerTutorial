@@ -18,14 +18,16 @@
         android:textStyle="bold" />
 
     <Button
+        android:id="@+id/getchoice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="SEGUI"/>
 
     <ListView
-        android:id="@+id/lista_corsi"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="wrap_content"
+        android:id="@+id/list"
+        android:layout_gravity="left"/>
 
 
 </LinearLayout>
