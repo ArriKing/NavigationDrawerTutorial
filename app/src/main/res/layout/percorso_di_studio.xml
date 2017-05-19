@@ -27,6 +27,12 @@
         android:text="hello_world"
         android:textSize="30sp" />
 
+    <TableLayout
+        android:id="@+id/table_tm"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="1" ></TableLayout>
+
 </LinearLayout>
 
 

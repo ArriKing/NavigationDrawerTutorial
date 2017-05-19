@@ -28,7 +28,7 @@ public class BachecaActivity extends AppCompatActivity{
 
         for(int i=0;i<selected.length;i++){
             String[] info = selected[i].split(":");
-            exit+= "Codice corso: " + info[0] + " Nome corso: " + info[1] + "\n" + "\n";
+            exit+= "Codice corso: " + info[0] + " -  Nome corso: " + info[1] + "\n" + "\n";
         }
 
 

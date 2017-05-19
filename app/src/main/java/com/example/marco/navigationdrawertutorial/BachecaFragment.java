@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 /**
  * Created by Marco on 17/05/2017.
@@ -34,14 +35,14 @@ public class BachecaFragment extends DialogFragment {
     public void onStart(){
         super.onStart();
 
-//        final List<Corsi> corso = new ArrayList<>();
-//        corso.add(new Corsi("38021","Analisi I",false));
-//        corso.add(new Corsi("38022","Analisi II",false));
-//        corso.add(new Corsi("38023","Fisica I",false));
-//        corso.add(new Corsi("38024","Fisica II",false));
-//        corso.add(new Corsi("38025","Chimica",false));
-//        corso.add(new Corsi("38026","Informatica I",false));
-//        corso.add(new Corsi("38027","Basi di dati",false));
+//        final List<Corso> corso = new ArrayList<>();
+//        corso.add(new Corso("38021","Analisi I",false));
+//        corso.add(new Corso("38022","Analisi II",false));
+//        corso.add(new Corso("38023","Fisica I",false));
+//        corso.add(new Corso("38024","Fisica II",false));
+//        corso.add(new Corso("38025","Chimica",false));
+//        corso.add(new Corso("38026","Informatica I",false));
+//        corso.add(new Corso("38027","Basi di dati",false));
 //
 //
 //
@@ -83,6 +84,11 @@ public class BachecaFragment extends DialogFragment {
                 int cntChoice = myList.getCount();
 
                 SparseBooleanArray sparseBooleanArray = myList.getCheckedItemPositions();
+                //Controllo che abbia selezionato almeno un corso
+                if(sparseBooleanArray.size()==0){
+                    Toast.makeText(context,"Seleziona un corso",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 int k=0;
                 for(int i = 0; i < cntChoice; i++){
 
@@ -96,6 +102,7 @@ public class BachecaFragment extends DialogFragment {
                 Intent intent=new Intent(context, BachecaActivity.class);
                 intent.putExtra("c_list", selected);
                 startActivity(intent);
+
                 //Toast.makeText(getActivity(),selected, Toast.LENGTH_LONG).show();
             }});
 

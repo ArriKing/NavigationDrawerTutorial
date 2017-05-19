@@ -10,7 +10,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-
     <string-array name="Orai_Lezioni">
         <item>8.00</item>
         <item>8.30</item>
@@ -36,4 +35,23 @@
         <item>18.30</item>
         <item>19.00</item>
     </string-array>
+
+    <!--Elementi di prova tabella-->
+    <!-- Array di prova per le tabelle -->
+    <string-array name="test_class_array">
+        <item>A001</item>
+        <item>A002</item>
+        <item>A003</item>
+        <item>A004</item>
+    </string-array>
+
+    <string-array name="test_hour_array">
+        <item>8.00 - 10.00</item>
+        <item>8.00 - 12.00</item>
+        <item>14.00 - 16.00</item>
+        <item>14.00 - 18.00</item>
+    </string-array>
+
+
+
 </resources>
