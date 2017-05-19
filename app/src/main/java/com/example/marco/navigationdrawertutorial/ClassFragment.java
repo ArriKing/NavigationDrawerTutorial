@@ -23,7 +23,10 @@ import android.widget.Spinner;
 public class ClassFragment extends DialogFragment {
     private String BOT;
     private String EOT;
+
+
     ListView myList;
+
     Activity context;
 
     //CREARE UN FRAGMENT

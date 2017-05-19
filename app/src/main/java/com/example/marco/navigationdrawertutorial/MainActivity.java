@@ -88,22 +88,22 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_time_choice) {
                 //set the fragment initially
                 ClassFragment fragment =new ClassFragment();
                 android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, fragment);
                 fragmentTransaction.commit();
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_notice_board) {
                 //set the fragment initially
                 BachecaFragment fragment =new BachecaFragment();
                 android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, fragment);
                 fragmentTransaction.commit();
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_account) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_manage_subs) {
 
         } else if (id == R.id.nav_share) {
 
