@@ -2,7 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/fragment_paddingTop"
+
+    
+
+    android:paddingTop="@dimen/nav_header_height"
+
     android:paddingBottom="16dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
@@ -76,26 +80,14 @@
         android:orientation="horizontal"
         android:gravity="center">
 
-        <CheckBox
-            android:id="@+id/chk_A"
-            android:layout_width="wrap_content"
+       
+
+        <ListView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edificio A"/>
-        <CheckBox
-            android:id="@+id/chk_B"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edificio B"/>
-        <CheckBox
-            android:id="@+id/chk_C"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edificio C"/>
-        <CheckBox
-            android:id="@+id/chk_All"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tutti gli edifici"/>
+            android:id="@+id/list_Ed"
+            android:layout_gravity="left"/>
+
 
     </LinearLayout>
 
