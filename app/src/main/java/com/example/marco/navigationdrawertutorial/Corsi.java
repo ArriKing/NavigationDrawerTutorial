@@ -5,26 +5,15 @@ package com.example.marco.navigationdrawertutorial;
  */
 
 public class Corsi {
-    boolean isSelected;
     String ID;
     String Nome_Corso;
 
     //now create constructor and getter setter method using shortcut like command+n for mac & Alt+Insert for window.
 
 
-    public Corsi(String ID, String Nome_Corso,boolean isSelected ) {
-        this.isSelected = isSelected;
+    public Corsi(String ID, String Nome_Corso) {
         this.ID=ID;
         this.Nome_Corso = Nome_Corso;
-    }
-
-
-    public boolean isSelected() {
-        return isSelected;
-    }
-
-    public void setSelected(boolean selected) {
-        isSelected = selected;
     }
 
     public String getID() {

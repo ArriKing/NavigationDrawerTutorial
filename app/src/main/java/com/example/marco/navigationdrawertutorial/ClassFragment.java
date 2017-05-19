@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 
@@ -21,7 +23,7 @@ import android.widget.Spinner;
 public class ClassFragment extends DialogFragment {
     private String BOT;
     private String EOT;
-    private int A,B,C,All;
+    ListView myList;
     Activity context;
 
     //CREARE UN FRAGMENT
@@ -38,14 +40,8 @@ public class ClassFragment extends DialogFragment {
     private void tempo_Fine(String t){
         EOT=t;
     }
-    private void EdificioA(int a) {
-        A=a;
-    }
-    private void EdificioB(int b) {B=b;}
-    private void EdificioC(int c) {C=c;}
-    private void EdificioAll(int all) {
-        All=all;
-    }
+
+    //private void EdificioAll(int all) {All=all;}
 
     public void onStart(){
         super.onStart();
@@ -69,50 +65,51 @@ public class ClassFragment extends DialogFragment {
             public void onNothingSelected(AdapterView<?> arg0) {}
         });
 
-        //CheckBo edifici
-        CheckBox yourCheckBox_1 = (CheckBox) context.findViewById(R.id.chk_A);
-        yourCheckBox_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //is chkIos checked?
-                if (((CheckBox) v).isChecked()) {EdificioA(1);}
-                else EdificioA(0);
-            }
-        });
-        CheckBox yourCheckBox_2 = (CheckBox) context.findViewById(R.id.chk_B);
-        yourCheckBox_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //is chkIos checked?
-                if (((CheckBox) v).isChecked()) {EdificioB(1);}
-                else EdificioB(0);
-            }
-        });
-        CheckBox yourCheckBox_3 = (CheckBox) context.findViewById(R.id.chk_C);
-        yourCheckBox_3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //is chkIos checked?
-                if (((CheckBox) v).isChecked()) {EdificioC(1);}
-                else EdificioC(0);
-            }
-        });
+        //Lista CheckBox edifici
+
+        String[] Edifici = {
+                "Edificio A",
+                "Edificio B",
+                "Edificio C",
+        };
+
+        myList = (ListView)context.findViewById(R.id.list_Ed);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_multiple_choice, Edifici);
+
+        myList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        myList.setAdapter(adapter);
+
+
 
         //Listener del button
         Button bt=(Button)context.findViewById(R.id.bt);
         bt.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 //create an Intent object
-                Intent intent=new Intent(context, OrariAuleActivity.class);
-               // CheckBox chkA = (CheckBox) context.findViewById(R.id.chk_A);
-                //add data to the Intent object
+                Intent intent=new Intent(context, ClassActivity.class);
 
+                //All'evento di onclick sul buttone controllo chi nella lista ha il check
+                //e viene messo in una stringa con , come separatore
+                String selected="";
+                int cntChoice = myList.getCount();
+
+                SparseBooleanArray sparseBooleanArray = myList.getCheckedItemPositions();
+                int k=0;
+                for(int i = 0; i < cntChoice; i++){
+
+                    if(sparseBooleanArray.get(i)) {
+
+                        selected+= myList.getItemAtPosition(i).toString() + ",";
+
+                    }
+                }
+                //add data to the Intent object
                 intent.putExtra("Time_1", BOT);
                 intent.putExtra("Time_2", EOT);
-               // intent.putExtra("Ed_A",checkBox_A.isChecked());
-                intent.putExtra("Ed_A", A);
-                intent.putExtra("Ed_B", B);
-                intent.putExtra("Ed_C", C);
+                intent.putExtra("Ed_list", selected);
+
                 //start the second activity
                 startActivity(intent);
             }

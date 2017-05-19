@@ -21,7 +21,7 @@
             </intent-filter>
           <!--Activity di prova-->
         </activity>
-        <activity android:name=".OrariAuleActivity"
+        <activity android:name=".ClassActivity"
             android:label="@string/app_name"
             android:parentActivityName=".MainActivity">
         </activity>

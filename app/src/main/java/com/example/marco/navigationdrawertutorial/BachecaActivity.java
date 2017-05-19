@@ -24,7 +24,14 @@ public class BachecaActivity extends AppCompatActivity{
         super.onStart();
         TextView tv=(TextView)findViewById(R.id.textView5);
         String[] selected = getIntent().getStringExtra("c_list").split(",");
+        String exit="";
 
-        tv.setText("Corsi scelti: " + selected[0]);
+        for(int i=0;i<selected.length;i++){
+            String[] info = selected[i].split(":");
+            exit+= "Codice corso: " + info[0] + " Nome corso: " + info[1] + "\n" + "\n";
+        }
+
+
+        tv.setText(exit);
     }
 }

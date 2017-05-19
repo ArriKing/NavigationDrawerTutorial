@@ -48,18 +48,18 @@ public class BachecaFragment extends DialogFragment {
 //        Toast.makeText(getActivity(), Corsi_di_laurea[4], Toast.LENGTH_LONG).show();
 
         String[] Corsi_di_laurea = {
-                "Analisi I",
-                "Fisica I",
-                "Chimica",
-                "Informatica I",
-                "Calcolatori elettronici",
-                "Informatica II",
-                "Fisica II",
-                "Sistemi operativi",
-                "Geometria e algebra lineare",
-                "Fondamenti di automatica",
-                "Economia e organizzzazione aziendale",
-                "Fondamenti di elettronica"
+                "21055:Analisi I",
+                "21011:Fisica I",
+                "21010:Chimica",
+                "21012:Informatica I",
+                "22012:Calcolatori elettronici",
+                "23012:Informatica II",
+                "24012:Fisica II",
+                "25052:Sistemi operativi",
+                "23042:Geometria e algebra lineare",
+                "21512:Fondamenti di automatica",
+                "21019:Economia e organizzzazione aziendale",
+                "27012:Fondamenti di elettronica"
         };
 
         myList = (ListView)context.findViewById(R.id.list);
