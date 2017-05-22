@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ClassActivity extends AppCompatActivity {
 
@@ -24,18 +25,21 @@ public class ClassActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
-   /* public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.second, menu);
-        return true;
-    }*/
 
     public void onStart(){
         super.onStart();
         String Inizio = getIntent().getStringExtra("Time_1");
         String Fine = getIntent().getStringExtra("Time_2");
         String[] Edifici = getIntent().getStringExtra("Ed_list").split(",");
+
+        String[] Aule = {
+                "A002",
+                "A104",
+                "B001",
+                "B105",
+                "B201",
+                "C101",
+        };
 
         //Creazione dimaica tabella
 
@@ -58,50 +62,70 @@ public class ClassActivity extends AppCompatActivity {
         tbrow0.addView(tv2);
         //aggiungo la riga
         stk.addView(tbrow0);
-
+        //Toast.makeText(this,"Orario di Fine inferiore ad orario d'inizio !", Toast.LENGTH_LONG).show();
 
         for (int i = 0; i < Edifici.length; i++) {
-            TableRow tbrow = new TableRow(this);
+            switch(Edifici[i].charAt(9)){
+                case 'A':
+                    for(int k=0;k<Aule.length;k++){
+                        if(Aule[k].charAt(0)=='A') {
+                            //ricorda di creare la riga ogni volta!
+                            TableRow tbrow = new TableRow(this);
+                            TextView t1v = new TextView(this);
+                            t1v.setText(Aule[k]);
+                            t1v.setGravity(Gravity.CENTER);
+                            tbrow.addView(t1v);
+                            //aggiungo la riga finita
+                            stk.addView(tbrow);
+                        }
+                    }
+                    break;
+                case 'B':
+                    for(int k=0;k<Aule.length;k++){
+                        if(Aule[k].charAt(0)=='B') {
+                            TableRow tbrow = new TableRow(this);
+                            TextView t1v = new TextView(this);
+                            t1v.setText(Aule[k]);
+                            t1v.setGravity(Gravity.CENTER);
+                            tbrow.addView(t1v);
+                            stk.addView(tbrow);
+                        }
+                    }
+                    break;
+                case 'C':
+                    for(int k=0;k<Aule.length;k++){
+                        if(Aule[k].charAt(0)=='C') {
+                            TableRow tbrow = new TableRow(this);
+                            TextView t1v = new TextView(this);
+                            t1v.setText(Aule[k]);
+                            t1v.setGravity(Gravity.CENTER);
+                            tbrow.addView(t1v);
+                            stk.addView(tbrow);
+                        }
+                    }
+                    break;
+            }
             /////////////////////
-            TextView t1v = new TextView(this);
-            t1v.setText(Edifici[i]);
-            t1v.setGravity(Gravity.CENTER);
-            tbrow.addView(t1v);
+
+//                TextView t1v = new TextView(this);
+//                t1v.setText(Edifici[i]);
+//                t1v.setGravity(Gravity.CENTER);
+//                tbrow.addView(t1v);
+
             /////////////////////
-            TextView t2v = new TextView(this);
-            t2v.setText(Inizio);
-            t2v.setGravity(Gravity.CENTER);
-            tbrow.addView(t2v);
-            /////////////////////
-            TextView t3v = new TextView(this);
-            t3v.setText(Fine);
-            t3v.setGravity(Gravity.CENTER);
-            tbrow.addView(t3v);
+//            TextView t2v = new TextView(this);
+//            t2v.setText(Inizio);
+//            t2v.setGravity(Gravity.CENTER);
+//            tbrow.addView(t2v);
+//            /////////////////////
+//            TextView t3v = new TextView(this);
+//            t3v.setText(Fine);
+//            t3v.setGravity(Gravity.CENTER);
+//            tbrow.addView(t3v);
             //////////////////////
 
-            stk.addView(tbrow);
+           // stk.addView(tbrow);
         }
-
-//        for (int i = 0; i<Edifici.length; i++) {
-//
-//            TableRow row= new TableRow(this);
-//            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT);
-//            row.setLayoutParams(lp);
-//
-//            TextView Ed = new TextView(this);
-//            Ed.setText(Edifici[i]);
-//            TextView Ini = new TextView(this);
-//            Ini.setText(Edifici[i]);
-//            TextView Fin = new TextView(this);
-//            Fin.setText(Edifici[i]);
-//
-//            row.addView(Ed);
-//            row.addView(Ini);
-//            row.addView(Fin);
-//            ll.addView(row,i);
-//        }
-
-
 
     }
 
