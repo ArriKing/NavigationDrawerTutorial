@@ -25,7 +25,7 @@ public class BachecaActivity extends AppCompatActivity{
 
     public void onStart(){
         super.onStart();
-        final DBHandler db = new DBHandler(this);
+        final Corsi_DBHandler db = new Corsi_DBHandler(this);
         TextView tv=(TextView)findViewById(R.id.textView5);
         String[] selected = getIntent().getStringExtra("c_list").split(",");
 
