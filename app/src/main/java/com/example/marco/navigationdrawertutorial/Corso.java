@@ -5,6 +5,7 @@ package com.example.marco.navigationdrawertutorial;
  */
 
 public class Corso {
+
     int ID;
     String Nome_Corso;
 
@@ -18,11 +19,14 @@ public class Corso {
         this.Nome_Corso = Nome_Corso;
     }
 
+
+
     public int getID() {
         return ID;
     }
 
     public void setID(int ID) {
+
         this.ID = ID;
     }
 

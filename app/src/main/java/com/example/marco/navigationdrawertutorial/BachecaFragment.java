@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 /**
  * Created by Marco on 17/05/2017.
@@ -83,6 +84,11 @@ public class BachecaFragment extends DialogFragment {
                 int cntChoice = myList.getCount();
 
                 SparseBooleanArray sparseBooleanArray = myList.getCheckedItemPositions();
+                //Controllo che abbia selezionato almeno un corso
+                if(sparseBooleanArray.size()==0){
+                    Toast.makeText(context,"Seleziona un corso",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 int k=0;
                 for(int i = 0; i < cntChoice; i++){
 
@@ -96,6 +102,7 @@ public class BachecaFragment extends DialogFragment {
                 Intent intent=new Intent(context, BachecaActivity.class);
                 intent.putExtra("c_list", selected);
                 startActivity(intent);
+
                 //Toast.makeText(getActivity(),selected, Toast.LENGTH_LONG).show();
             }});
 

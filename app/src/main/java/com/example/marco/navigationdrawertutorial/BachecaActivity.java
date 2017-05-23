@@ -29,6 +29,8 @@ public class BachecaActivity extends AppCompatActivity{
         TextView tv=(TextView)findViewById(R.id.textView5);
         String[] selected = getIntent().getStringExtra("c_list").split(",");
 
+
+
         String exit="";
         //voglio vedere il DB anche se ho selezionato alcun corso
         //se commenti questo IF lo fa, mi sa che sbaglio la condizione -.-
@@ -38,6 +40,7 @@ public class BachecaActivity extends AppCompatActivity{
                 //ID è un numero progreaaivo, vorrei darglielo io!
                 db.addCorso(new Corso(Integer.parseInt(info[0]),info[1]));
             }
+
         }
 
 
