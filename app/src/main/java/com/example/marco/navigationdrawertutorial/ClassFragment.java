@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 
 /**
@@ -109,12 +110,17 @@ public class ClassFragment extends DialogFragment {
                     }
                 }
                 //add data to the Intent object
-                intent.putExtra("Time_1", BOT);
-                intent.putExtra("Time_2", EOT);
-                intent.putExtra("Ed_list", selected);
+                int inizio=Integer.parseInt(BOT.replaceAll("[\\D]",""));
+                int fine=Integer.parseInt(EOT.replaceAll("[\\D]",""));
 
-                //start the second activity
-                startActivity(intent);
+                if(inizio<fine){
+                    intent.putExtra("Time_1", BOT);
+                    intent.putExtra("Time_2", EOT);
+                    intent.putExtra("Ed_list", selected);
+                    startActivity(intent);
+                }
+               else
+                    Toast.makeText(getActivity(),"Orario di Fine inferiore ad orario d'inizio !", Toast.LENGTH_LONG).show();
             }
 
         });

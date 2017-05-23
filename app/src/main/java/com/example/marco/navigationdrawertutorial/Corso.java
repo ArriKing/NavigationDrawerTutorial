@@ -5,22 +5,28 @@ package com.example.marco.navigationdrawertutorial;
  */
 
 public class Corso {
-    String ID;
+
+    int ID;
     String Nome_Corso;
 
     //now create constructor and getter setter method using shortcut like command+n for mac & Alt+Insert for window.
+    public Corso()
+    {
+    }
 
-
-    public Corso(String ID, String Nome_Corso) {
+    public Corso(int ID, String Nome_Corso) {
         this.ID=ID;
         this.Nome_Corso = Nome_Corso;
     }
 
-    public String getID() {
+
+
+    public int getID() {
         return ID;
     }
 
-    public void setID(String ID) {
+    public void setID(int ID) {
+
         this.ID = ID;
     }
 
