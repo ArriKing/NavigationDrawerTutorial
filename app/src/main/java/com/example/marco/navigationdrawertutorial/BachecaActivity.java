@@ -37,16 +37,20 @@ public class BachecaActivity extends AppCompatActivity{
        if (selected.length>0){
             for(int i=0;i<selected.length;i++){
                 String[] info = selected[i].split(":");
-                //ID è un numero progreaaivo, vorrei darglielo io!
-                db.addCorso(new Corso(Integer.parseInt(info[0]),info[1]));
+                //numero_Corso è un numero progressivo, vorrei darglielo io!
+                /**
+                 * Questo è stato risolto cambiando la struttura di Corso
+                 * come ti ho scritto
+                 * l'ID progressivo viene assegnato cmq ma visualizzo il
+                 * numero del corso
+                 */
+                db.addCorso(new Corso(info[0],info[1]));
             }
-
         }
-
 
         List<Corso> corsi = db.getAllCorsi();
         for (Corso corso : corsi) {
-            String log = "Id: " + corso.getID() + " ,Name: " + corso.getNome_Corso();
+            String log = "Id: " + corso.getNumero_Corso() + " - Name: " + corso.getNome_Corso()+"\n";
             exit+=log;
         }
         tv.setText(exit);

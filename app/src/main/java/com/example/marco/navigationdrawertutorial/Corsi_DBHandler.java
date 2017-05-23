@@ -21,6 +21,7 @@ public class Corsi_DBHandler extends SQLiteOpenHelper {
     private static final String TABLE_CORSI = "corsi";
     // Shops Table Columns names
     private static final String KEY_ID = "id";
+    private static final String KEY_NUMBER = "number";
     private static final String KEY_NAME = "name";
    // private static final String KEY_SH_ADDR = "shop_address";
     public Corsi_DBHandler(Context  context) {
@@ -29,8 +30,7 @@ public class Corsi_DBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CORSI + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + ")";
+                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NUMBER + " TEXT," + KEY_NAME + " TEXT"+ ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
     @Override
@@ -45,29 +45,34 @@ public class Corsi_DBHandler extends SQLiteOpenHelper {
     public void addCorso(Corso corso) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(KEY_NUMBER, corso.getNumero_Corso()); //Numero Corso
         values.put(KEY_NAME, corso.getNome_Corso()); // Nome Corso
 // Inserting Row
         db.insert(TABLE_CORSI, null, values);
         db.close(); // Closing database connection
     }
 
-
+    /**
+     * ATTENZIONE!
+     * Questo è un attimo da modificare se lo vogliamo utilizzare
+     * Perchè così ora chiedi l'id che assegna lui per cercare il corso nella tabella
+     * e restituirlo. Ma dovremmo mettere il nostro numero_Corso ad esempio come parametro
+     * però non so poi come funziona il pezzo dove crea la nuova String
+     */
     public Corso getCorso(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_CORSI, new String[] { KEY_ID,
-                        KEY_NAME}, KEY_ID + "=?",
+        Cursor cursor = db.query(TABLE_CORSI, new String[] { KEY_ID, KEY_NUMBER, KEY_NAME}, KEY_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
-        Corso contact = new Corso(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1));
+        Corso corso = new Corso(cursor.getString(1),cursor.getString(2));
 // return Corso
-        return contact;
+        return corso;
     }
 
 
     public List<Corso> getAllCorsi() {
-        List<Corso> shopList = new ArrayList<Corso>();
+        List<Corso> corsiList = new ArrayList<Corso>();
 // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_CORSI;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -76,14 +81,14 @@ public class Corsi_DBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Corso corso = new Corso();
-                corso.setID(Integer.parseInt(cursor.getString(0)));
-                corso.setNome_Corso(cursor.getString(1));
+                corso.setNumero_Corso(cursor.getString(1));
+                corso.setNome_Corso(cursor.getString(2));
 // Adding contact to list
-                shopList.add(corso);
+                corsiList.add(corso);
             } while (cursor.moveToNext());
         }
 // return contact list
-        return shopList;
+        return corsiList;
     }
 
     public int getCorsiCount() {
@@ -103,14 +108,14 @@ public class Corsi_DBHandler extends SQLiteOpenHelper {
 
 // updating row
         return db.update(TABLE_CORSI, values, KEY_ID + " = ?",
-                new String[]{String.valueOf(corso.getID())});
+                new String[]{String.valueOf(corso.getNumero_Corso())});
     }
 
     // Deleting a Corso
     public void deleteCorso(Corso corso) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CORSI, KEY_ID + " = ?",
-                new String[] { String.valueOf(corso.getID()) });
+                new String[] { String.valueOf(corso.getNumero_Corso()) });
         db.close();
     }
 }

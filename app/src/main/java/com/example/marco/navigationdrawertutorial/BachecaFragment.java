@@ -89,6 +89,7 @@ public class BachecaFragment extends DialogFragment {
                     Toast.makeText(context,"Seleziona un corso",Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 int k=0;
                 for(int i = 0; i < cntChoice; i++){
 
