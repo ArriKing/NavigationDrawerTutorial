@@ -34,15 +34,15 @@ public class NoticeBoardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        /*//RECYCLERVIEW
-        recyclerView=(RecyclerView)context.findViewById(R.id.recycler_view);
-        mAdapter=new MessageAdapter(messaggeList);
-        RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);
-        prepareMessageData();*/
+        //context.setContentView(R.layout.fragment_notice_board);
+//        //RECYCLERVIEW
+//        RecyclerView recyclerView=(RecyclerView)context.findViewById(R.id.recycler_view);
+//        mAdapter=new MessageAdapter(messaggeList);
+//        RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(context);
+//        recyclerView.setLayoutManager(mLayoutManager);
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
+//        recyclerView.setAdapter(mAdapter);
+//        prepareMessageData();
     }
 
     public void onStart(){
@@ -60,18 +60,21 @@ public class NoticeBoardFragment extends Fragment {
 
     //RIEMPIE LA RECYLCERVIEW
     private void prepareMessageData(){
-        Messaggio msg=new Messaggio("ANALISI 1", "Sospensione Lezione", "15.00");
-        messaggeList.add(msg);
+        final Corsi_DBHandler db = new Corsi_DBHandler(this.getActivity());
+        //METODO CALENDAR PER LA DATA
+        Calendar rightNow = Calendar.getInstance();
+        int day_of_the_month = rightNow.get(Calendar.DAY_OF_MONTH);
+        int month = rightNow.get(Calendar.MONTH);
+        int year = rightNow.get(Calendar.YEAR);
+        int hours = rightNow.get(Calendar.HOUR);
+        int minuts = rightNow.get(Calendar.MINUTE);
 
-        msg=new Messaggio("FISICA 1", "Sospensione Lezione", "15.00");
-        messaggeList.add(msg);
-
-        msg=new Messaggio("FISICA 2", "Sospensione Lezione", "15.00");
-        messaggeList.add(msg);
-
-        msg=new Messaggio("CHIMICA", "Sospensione Lezione", "15.00");
-        messaggeList.add(msg);
-
+        String DATA = "" + day_of_the_month+"/"+month+"/"+ year+" "+ hours+":"+minuts;
+        List<Corso> corsi = db.getAllCorsi();
+        for (Corso corso : corsi) {
+            Messaggio msg=new Messaggio(corso.getNome_Corso(), " ", DATA);
+            messaggeList.add(msg);
+        }
         mAdapter.notifyDataSetChanged();
     }
 
