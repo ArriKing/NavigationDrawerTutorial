@@ -20,8 +20,6 @@ public class NoticeBoardFragment extends Fragment {
     List<Messaggio> messaggeList=new ArrayList<>();
     MessageAdapter mAdapter;
 
-
-
     Activity context;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,20 +59,37 @@ public class NoticeBoardFragment extends Fragment {
     //RIEMPIE LA RECYLCERVIEW
     private void prepareMessageData(){
         final Corsi_DBHandler db = new Corsi_DBHandler(this.getActivity());
+        final Messaggi_DBHandler db_msg = new Messaggi_DBHandler(this.getActivity());
+
+
         //METODO CALENDAR PER LA DATA
         Calendar rightNow = Calendar.getInstance();
         int day_of_the_month = rightNow.get(Calendar.DAY_OF_MONTH);
         int month = rightNow.get(Calendar.MONTH);
         int year = rightNow.get(Calendar.YEAR);
-        int hours = rightNow.get(Calendar.HOUR);
+        int hours = rightNow.get(Calendar.HOUR_OF_DAY);
         int minuts = rightNow.get(Calendar.MINUTE);
 
-        String DATA = "" + day_of_the_month+"/"+month+"/"+ year+" "+ hours+":"+minuts;
         List<Corso> corsi = db.getAllCorsi();
+        String DATA = "" + day_of_the_month+"/"+month+"/"+ year+" "+ hours+":"+minuts;
+
+//DELETE PER PULIRE IL DB
+//        for (Corso corso : corsi) {
+//            Messaggio msg=new Messaggio(corso.getNome_Corso(), "Sospensione lezione ", DATA);
+//            db_msg.deleteMsg(msg);
+//        }
+
         for (Corso corso : corsi) {
-            Messaggio msg=new Messaggio(corso.getNome_Corso(), " ", DATA);
+            Messaggio msg=new Messaggio(corso.getNome_Corso(), "Sospensione lezione ", DATA);
+            db_msg.addMsg(msg);
+        }
+
+        List<Messaggio> msgList = db_msg.getAllMsg();
+
+        for (Messaggio msg : msgList) {
             messaggeList.add(msg);
         }
+
         mAdapter.notifyDataSetChanged();
     }
 

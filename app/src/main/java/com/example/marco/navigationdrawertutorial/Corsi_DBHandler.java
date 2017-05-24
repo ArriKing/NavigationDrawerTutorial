@@ -100,17 +100,6 @@ public class Corsi_DBHandler extends SQLiteOpenHelper {
         return cursor.getCount();
     }
 
-    // Updating a Corso
-    public int updateCorsi(Corso corso) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(KEY_NAME, corso.getNome_Corso());
-
-// updating row
-        return db.update(TABLE_CORSI, values, KEY_ID + " = ?",
-                new String[]{String.valueOf(corso.getNumero_Corso())});
-    }
-
     // Deleting a Corso
     public void deleteCorso(Corso corso) {
         SQLiteDatabase db = this.getWritableDatabase();
