@@ -29,8 +29,6 @@ public class BachecaActivity extends AppCompatActivity{
         TextView tv=(TextView)findViewById(R.id.textView5);
         String[] selected = getIntent().getStringExtra("c_list").split(",");
 
-
-
         String exit="";
         //voglio vedere il DB anche se ho selezionato alcun corso
         //se commenti questo IF lo fa, mi sa che sbaglio la condizione -.-
@@ -44,7 +42,15 @@ public class BachecaActivity extends AppCompatActivity{
                  * l'ID progressivo viene assegnato cmq ma visualizzo il
                  * numero del corso
                  */
-                db.addCorso(new Corso(info[0],info[1]));
+                boolean corsoFound=false;
+                Corso corso = new Corso(info[0],info[1]);
+                List<Corso> checkCorsi = db.getAllCorsi();
+                for(Corso c : checkCorsi){
+                    if(c.getNumero_Corso().equals(corso.getNumero_Corso()))
+                        corsoFound=true;
+                }
+                if(!corsoFound)
+                    db.addCorso(corso);
             }
         }
 
