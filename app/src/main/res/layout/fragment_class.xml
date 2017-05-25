@@ -89,6 +89,12 @@
         android:layout_height="wrap_content"
         android:text="PROVA NOTIFICA"
         style="@style/Widget.AppCompat.Button.Borderless.Colored" />
+    <Button
+        android:id="@+id/bt_html_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PROVA HTML"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored" />
 
 
 </LinearLayout>

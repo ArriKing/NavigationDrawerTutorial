@@ -136,7 +136,14 @@ public class ClassFragment extends DialogFragment {
             }
         });
 
-
+        Button btHtml=(Button)context.findViewById(R.id.bt_html_test);
+        btHtml.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                Intent intent=new Intent(context, Prova_HTML.class);
+                startActivity(intent);
+                //Toast.makeText(context,"Bravoh!",Toast.LENGTH_LONG).show();
+            }
+        });
 
 
 
