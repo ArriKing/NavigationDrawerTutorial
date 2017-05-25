@@ -3,11 +3,13 @@ package com.example.marco.navigationdrawertutorial;
 
 import android.app.Activity;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -155,9 +157,17 @@ public class ClassFragment extends DialogFragment {
         mBuilder.setSmallIcon(R.drawable.ic_menu_send);
         mBuilder.setContentTitle("Notification Alert, Click Me!");
         mBuilder.setContentText("Hi, This is Android Notification Detail!");
+        mBuilder.setAutoCancel(true);
+        //Azione sulla notifica
+        Intent notificationIntent = new Intent(context, MainActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(MainActivity.class);
+        //Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(notificationIntent);
+        PendingIntent notifPendingIntent=stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(notifPendingIntent);
 
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
 // notificationID allows you to update the notification later on.
         mNotificationManager.notify(1,mBuilder.build());
     }
