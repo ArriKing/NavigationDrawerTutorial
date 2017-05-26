@@ -36,6 +36,17 @@ public class ClassActivity extends AppCompatActivity {
         //PROBLEMA:torna alla home,non al suo fragment ma al main fragment
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //LEGGO I PARAMETRI PASSATI DA CLASSFRAGMENT
+        Inizio = getIntent().getStringExtra("Time_1");
+        Fine = getIntent().getStringExtra("Time_2");
+        edList = getIntent().getStringExtra("Ed_list");
+        //Edificio scelto
+        if(edList.equals(""))
+            edScelto= new String[]{"**********"};
+        else
+            edScelto = edList.split(",");
+
+
         //Creazione intestazione tabella dinamica
         stk = (TableLayout) findViewById(R.id.table_main);
         //riga della tabella
@@ -43,28 +54,23 @@ public class ClassActivity extends AppCompatActivity {
         //prima colonna
         TextView tv0 = new TextView(this);
         tv0.setText(" AULA ");
+        tv0.setTextAppearance(this, R.style.CustomTextView);
         tv0.setGravity(Gravity.LEFT);
         tHeader.addView(tv0);
         //seconda colonna
         TextView tv1 = new TextView(this);
         tv1.setText(" INIZIO ");
+        tv1.setTextAppearance(this, R.style.CustomTextView);
         tv1.setGravity(Gravity.CENTER);
         tHeader.addView(tv1);
         //terza colonna
         TextView tv2 = new TextView(this);
         tv2.setText(" FINE ");
+        tv2.setTextAppearance(this, R.style.CustomTextView);
         tv2.setGravity(Gravity.RIGHT);
         tHeader.addView(tv2);
         //aggiungo la riga
         stk.addView(tHeader);
-
-        //LEGGO I PARAMETRI PASSATI DA CLASSFRAGMENT
-        Inizio = getIntent().getStringExtra("Time_1");
-        Fine = getIntent().getStringExtra("Time_2");
-        edList = getIntent().getStringExtra("Ed_list");
-        //Edificio scelto
-        if(edList!="")
-            edScelto = getIntent().getStringExtra("Ed_list").split(",");
 
         String siteUrl = "http://www03.unibg.it//orari//orario_giornaliero.php?db=IN&data=oggi&orderby=ora";
         ( new ClassActivity.ParseURL() ).execute(new String[]{siteUrl});
@@ -164,7 +170,7 @@ public class ClassActivity extends AppCompatActivity {
                         writeAuleFiltrate(tbl, al, 'B');
                         break;
                     case 'C':
-                        writeAllAule(tbl, al);
+                        writeAuleFiltrate(tbl, al, 'C');
                         break;
                     default:
                         writeAllAule(tbl, al);
@@ -172,7 +178,6 @@ public class ClassActivity extends AppCompatActivity {
                 }
             }
         }
-
 
   }//end ParseURL
 
