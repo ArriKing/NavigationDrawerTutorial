@@ -59,7 +59,7 @@ public class ClassActivity extends AppCompatActivity {
         createTableHeader();
 
         String todayUrl = "http://www03.unibg.it//orari//orario_giornaliero.php?db=IN&data=oggi&orderby=ora";
-        String otherDayUrl = "http://www03.unibg.it//orari//orario_giornaliero.php?db=IN&data=29/05/2017&orderby=ora";
+        String otherDayUrl = "http://www03.unibg.it//orari//orario_giornaliero.php?db=IN&data=30/05/2017&orderby=ora";
         //Aziono il parsing della pagina html con gli orari
         ( new ClassActivity.ParseURL() ).execute(new String[]{otherDayUrl});
 
@@ -122,7 +122,7 @@ public class ClassActivity extends AppCompatActivity {
                     tbRow.addView(tOrario);
                     //Aggiungo lo stato
                     TextView tStato = new TextView(this);
-                    tStato.setText("LIBERA");
+                    tStato.setText("OCCUPATA");
                     tStato.setGravity(Gravity.RIGHT);
                     tbRow.addView(tStato);
                     //aggiungo la riga finita
@@ -133,7 +133,10 @@ public class ClassActivity extends AppCompatActivity {
     }
     //Carico tutte le aule nella riga
     public void writeAllAule(TableLayout tbl, ArrayList<String> al, ArrayList<String> ol){
-        for(int k=0;k<al.size();k++){
+        writeAuleFiltrate(tbl, al ,ol, 'A');
+        writeAuleFiltrate(tbl, al ,ol, 'B');
+        writeAuleFiltrate(tbl, al ,ol, 'C');
+        /*for(int k=0;k<al.size();k++){
             //ricorda di creare la riga ogni volta!
             TableRow tbRow = new TableRow(this);
             //Aggiungo l'aula
@@ -153,7 +156,7 @@ public class ClassActivity extends AppCompatActivity {
             tbRow.addView(tStato);
             //aggiungo la riga finita
             tbl.addView(tbRow);
-        }
+        }*/
     }
     //Carico tutte le righe in tabella
     public void loadTableRow(String[] edifici, ArrayList<String> al, ArrayList<String> ol, TableLayout tbl){
@@ -189,13 +192,16 @@ public class ClassActivity extends AppCompatActivity {
             endLimit=parser.parse(oraFine);
             beginClass=parser.parse(orari[0]);
             endClass=parser.parse(orari[1]);
-            if(((beginClass.after(beginLimit) || beginClass.equals(beginLimit)) && beginClass.before(endLimit)) || (endClass.before(endLimit) || endClass.equals(endLimit))){
+            //                     beginClass >= beginLimit                     &&                   beginClass <= endLimit                      ||                     endClass >= beginLimit                   &&                   endClass <= endLimit
+//            if(((beginClass.after(beginLimit) || beginClass.equals(beginLimit)) && (beginClass.before(endLimit) || beginClass.equals(endLimit))) || ((endClass.after(beginLimit) || endClass.equals(beginLimit)) && (endClass.before(endLimit) || endClass.equals(endLimit)))){
+            //    beginClass > beginLimit    &&    beginClass < endLimit     ||     endClass > beginLimit   &&    endClass < endLimit
+            if((beginClass.after(beginLimit) && beginClass.before(endLimit)) || (endClass.after(beginLimit) && endClass.before(endLimit))){
                 busy=true;
             }else
                 busy=false;
         }catch (ParseException e){
             //DO_SOMETHING
-            Toast.makeText(getApplicationContext(),"PARSEEXCEPTION",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"PARSE EXCEPTION",Toast.LENGTH_LONG).show();
         }
         return busy;
     }
