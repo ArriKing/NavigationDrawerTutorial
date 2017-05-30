@@ -192,13 +192,21 @@ public class ClassActivity extends AppCompatActivity {
             endLimit=parser.parse(oraFine);
             beginClass=parser.parse(orari[0]);
             endClass=parser.parse(orari[1]);
-            //                     beginClass >= beginLimit                     &&                   beginClass <= endLimit                      ||                     endClass >= beginLimit                   &&                   endClass <= endLimit
-//            if(((beginClass.after(beginLimit) || beginClass.equals(beginLimit)) && (beginClass.before(endLimit) || beginClass.equals(endLimit))) || ((endClass.after(beginLimit) || endClass.equals(beginLimit)) && (endClass.before(endLimit) || endClass.equals(endLimit)))){
-            //    beginClass > beginLimit    &&    beginClass < endLimit     ||     endClass > beginLimit   &&    endClass < endLimit
-            if((beginClass.after(beginLimit) && beginClass.before(endLimit)) || (endClass.after(beginLimit) && endClass.before(endLimit))){
-                busy=true;
-            }else
-                busy=false;
+            //    beginClass = beginLimit    ||    endClass = endLimit
+            if(beginClass.equals(beginLimit) || endClass.equals(endLimit)){
+                //                     beginClass >= beginLimit                     &&                   beginClass <= endLimit                      ||                     endClass >= beginLimit                   &&                   endClass <= endLimit
+                if(((beginClass.after(beginLimit) || beginClass.equals(beginLimit)) && (beginClass.before(endLimit) || beginClass.equals(endLimit))) || ((endClass.after(beginLimit) || endClass.equals(beginLimit)) && (endClass.before(endLimit) || endClass.equals(endLimit)))){
+                    busy=true;
+                }else{
+                    busy=false;
+                }
+            }else{
+                //    beginClass > beginLimit    &&    beginClass < endLimit     ||     endClass > beginLimit   &&    endClass < endLimit
+                if((beginClass.after(beginLimit) && beginClass.before(endLimit)) || (endClass.after(beginLimit) && endClass.before(endLimit))){
+                    busy=true;
+                }else
+                    busy=false;
+            }
         }catch (ParseException e){
             //DO_SOMETHING
             Toast.makeText(getApplicationContext(),"PARSE EXCEPTION",Toast.LENGTH_LONG).show();
