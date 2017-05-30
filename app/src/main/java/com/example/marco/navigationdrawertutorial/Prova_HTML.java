@@ -66,7 +66,7 @@ public class Prova_HTML extends AppCompatActivity {
                     Info_aule.add(Aule[0]);
                     String Orari[]=cols.get(3).text().split("\\)");
                     H_aule.add(Orari[1]);
-                    buffer.append("["+Aule[0]+ "-" + Orari[1] +"] \r\n \n");
+                    buffer.append("["+Aule[0]+ "-" + Orari[1] +"]");
                 }
             }
             catch(Throwable t) {

@@ -45,7 +45,7 @@ public class NoticeBoardFragment extends Fragment {
 
     public void onStart(){
         super.onStart();
-
+        messaggeList.clear();
         //GESTIONE RecycleView
         RecyclerView recyclerView=(RecyclerView)context.findViewById(R.id.recycler_view);
         mAdapter=new MessageAdapter(messaggeList);
@@ -53,6 +53,7 @@ public class NoticeBoardFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+
         prepareMessageData();
     }
 
@@ -71,6 +72,7 @@ public class NoticeBoardFragment extends Fragment {
         int minuts = rightNow.get(Calendar.MINUTE);
 
         List<Corso> corsi = db.getAllCorsi();
+        List<Messaggio> msgList = db_msg.getAllMsg();
         String DATA = "" + day_of_the_month+"/"+month+"/"+ year+" "+ hours+":"+minuts;
 
 //DELETE PER PULIRE IL DB
@@ -80,16 +82,15 @@ public class NoticeBoardFragment extends Fragment {
 //        }
 
         for (Corso corso : corsi) {
-            Messaggio msg=new Messaggio(corso.getNome_Corso(), "Sospensione lezione ", DATA);
-            db_msg.addMsg(msg);
+            Messaggio msg_new=new Messaggio(corso.getNome_Corso(), "Sospensione lezione ", DATA);
+            db_msg.addMsg(msg_new);
+            msgList.add(msg_new);
         }
-
-        List<Messaggio> msgList = db_msg.getAllMsg();
 
         for (Messaggio msg : msgList) {
             messaggeList.add(msg);
         }
-
+        msgList.clear();
         mAdapter.notifyDataSetChanged();
     }
 
