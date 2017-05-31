@@ -32,6 +32,7 @@ public class ClassActivity extends AppCompatActivity {
     private String oraFine;
     private String edList;
     private String[] edScelti;
+    private ArrayList<String> noteList;
     private ArrayList<String> auleOccupateList;
     private ArrayList<String> auleLibereList;
 
@@ -55,17 +56,16 @@ public class ClassActivity extends AppCompatActivity {
 
         auleOccupateList=new ArrayList<String>();
         auleLibereList=new ArrayList<String>();
+        noteList = new ArrayList<String>();
 
         //Setto testo TexView e Intestazione tabella
         TextView tvShowTime=(TextView)findViewById(R.id.tvShowTimeRange);
         tvShowTime.setText("Aule libere dalle "+oraInizio+" alle "+oraFine);
 
-        createTableHeader();
-
         String todayUrl = "http://www03.unibg.it//orari//orario_giornaliero.php?db=IN&data=oggi&orderby=ora";
         String otherDayUrl = "http://www03.unibg.it//orari//orario_giornaliero.php?db=IN&data=30/05/2017&orderby=ora";
         //Aziono il parsing della pagina html con gli orari
-        ( new ClassActivity.ParseURL() ).execute(new String[]{otherDayUrl});
+        ( new ClassActivity.ParseURL() ).execute(new String[]{todayUrl});
 
     }
 
@@ -104,8 +104,8 @@ public class ClassActivity extends AppCompatActivity {
 
 //---------------METODI DI PROVA: CARICO TUTTE LE RIGHE DELLA TABELLA CHE RISPETTANO I REQUISITI
     //Carico le aule filtrate in base agli edScelti nella riga
-    public void loadAndWriteAuleFiltrateList(ArrayList<String> al, ArrayList<String> ol, char ed, TableLayout tbl){
-        createBusyList(al,ol);
+    public void loadAndWriteAuleFiltrateList(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, char ed, TableLayout tbl){
+        createBusyList(al,ol, nl);
         for(int k=0;k<al.size();k++){
             boolean foundBusy=false;
             if(al.get(k).trim().charAt(0)==ed){
@@ -141,22 +141,22 @@ public class ClassActivity extends AppCompatActivity {
         }
     }
     //Carico tutte le righe in tabella
-    public void loadTableRow_PROVA(String[] edifici, ArrayList<String> al, ArrayList<String> ol, ArrayList<String> all, TableLayout tbl){
+    public void loadTableRow_PROVA(String[] edifici, ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, ArrayList<String> all, TableLayout tbl){
         for (int i = 0; i < edifici.length; i++) {
             switch(edifici[i].charAt(9)){
                 case 'A':
-                    loadAndWriteAuleFiltrateList(al, ol, 'A', tbl);
+                    loadAndWriteAuleFiltrateList(al, ol, nl, 'A', tbl);
                     break;
                 case 'B':
-                    loadAndWriteAuleFiltrateList(al, ol, 'B', tbl);
+                    loadAndWriteAuleFiltrateList(al, ol, nl, 'B', tbl);
                     break;
                 case 'C':
-                    loadAndWriteAuleFiltrateList(al, ol, 'C', tbl);
+                    loadAndWriteAuleFiltrateList(al, ol, nl, 'C', tbl);
                     break;
                 default:
-                    loadAndWriteAuleFiltrateList(al, ol, 'A', tbl);
-                    loadAndWriteAuleFiltrateList(al, ol, 'B', tbl);
-                    loadAndWriteAuleFiltrateList(al, ol, 'C', tbl);
+                    loadAndWriteAuleFiltrateList(al, ol, nl, 'A', tbl);
+                    loadAndWriteAuleFiltrateList(al, ol, nl, 'B', tbl);
+                    loadAndWriteAuleFiltrateList(al, ol, nl, 'C', tbl);
                     break;
             }
         }
@@ -199,11 +199,11 @@ public class ClassActivity extends AppCompatActivity {
         return busy;
     }
     //Aggiungo le aule occupate a auleOccupateList
-    public void createBusyList(ArrayList<String> al, ArrayList<String> ol){
+    public void createBusyList(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl){
         for(int i=0;i<al.size();i++){
-            if(isBusy(ol, i)){
-               auleOccupateList.add(al.get(i));
-            }
+            if(isBusy(ol,i) && nl.get(i).charAt(0)!='S')
+                auleOccupateList.add(al.get(i));
+
         }
     }
 
@@ -222,8 +222,8 @@ public class ClassActivity extends AppCompatActivity {
             auleLibereList.add(al.get(index));
     }
     //Cerco le aule libere e le aggiungo alla lista tramite il metodi addToAuleLibereList
-    public void findAuleLibere(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> all){
-        createBusyList(al, ol);
+    public void findAuleLibere(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, ArrayList<String> all){
+        createBusyList(al, ol, nl);
         for(int k=0;k<al.size();k++){
             boolean foundBusy=false;
             for(int i=0;i<auleOccupateList.size();i++){
@@ -237,8 +237,8 @@ public class ClassActivity extends AppCompatActivity {
     }
 
     //Scrivo effettivamente le aule libere trovate in tabella, in base all'edificio scelto
-    public void writeAuleLibere(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> all, TableLayout tbl, char ed){
-        findAuleLibere(al, ol, all);
+    public void writeAuleLibere(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, ArrayList<String> all, TableLayout tbl, char ed){
+        findAuleLibere(al, ol, nl, all);
         for(int i=0;i<all.size();i++){
             if(all.get(i).charAt(0)==ed){
                 TableRow tbRow = new TableRow(this);
@@ -255,28 +255,61 @@ public class ClassActivity extends AppCompatActivity {
     }
 
     //Carico tutte le righe in tabella
-    public void loadTableRow(String[] edifici, ArrayList<String> al, ArrayList<String> ol, ArrayList<String> all, TableLayout tbl){
+    public void loadTableRow(String[] edifici, ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, ArrayList<String> all, TableLayout tbl){
         for (int i = 0; i < edifici.length; i++) {
             switch(edifici[i].charAt(9)){
                 case 'A':
-                    writeAuleLibere(al,ol,all,tbl,'A');
+                    writeAuleLibere(al,ol,nl,all,tbl,'A');
                     break;
                 case 'B':
-                    writeAuleLibere(al,ol,all,tbl,'B');
+                    writeAuleLibere(al,ol,nl,all,tbl,'B');
                     break;
                 case 'C':
-                    writeAuleLibere(al,ol,all,tbl,'C');
+                    writeAuleLibere(al,ol,nl,all,tbl,'C');
                     break;
                 default:
-                    writeAuleLibere(al,ol,all,tbl,'A');
-                    writeAuleLibere(al,ol,all,tbl,'B');
-                    writeAuleLibere(al,ol,all,tbl,'C');
+                    writeAuleLibere(al,ol,nl,all,tbl,'A');
+                    writeAuleLibere(al,ol,nl,all,tbl,'B');
+                    writeAuleLibere(al,ol,nl,all,tbl,'C');
                     break;
             }
         }
     }
 
+    //Test methods
+    public void stampaTutto(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, TableLayout tbl){
+        for(int i=0;i<al.size();i++){
+            //ricorda di creare la riga ogni volta!
+            TableRow tbRow = new TableRow(this);
+            //Aggiungo l'aula
+            TextView tAula = new TextView(this);
+            tAula.setText(al.get(i));
+            tAula.setTextAppearance(this, R.style.CustomTextView);
+            tAula.setGravity(Gravity.LEFT);
+            tbRow.addView(tAula);
+            //Aggiungo l'orario
+            TextView tOrario = new TextView(this);
+            tOrario.setText(ol.get(i));
+            tOrario.setTextAppearance(this, R.style.CustomTextView);
+            tOrario.setGravity(Gravity.CENTER);
+            tbRow.addView(tOrario);
 
+            String isSosp;
+            if(nl.get(i).charAt(0)=='S')
+                isSosp="true";
+            else
+                isSosp="";
+
+            //Aggiungo lo stato
+            TextView tNote = new TextView(this);
+            tNote.setText(isSosp);
+            tNote.setTextAppearance(this, R.style.CustomTextView);
+            tNote.setGravity(Gravity.RIGHT);
+            tbRow.addView(tNote);
+            //aggiungo la riga finita
+            tbl.addView(tbRow);
+        }
+    }
 
 
 //------------------CLASSE PARSING SULLA PAGINA HTML--------------------------
@@ -305,6 +338,7 @@ public class ClassActivity extends AppCompatActivity {
                         auleList.add(aule[0]);
                         String orari[]=cols.get(3).text().split("\\)");
                         orariList.add(orari[1]);
+                        noteList.add(cols.get(4).text().trim());
                     }
                     //buffer.append(aule[0]+ " ; " + orari[1] +" \r\n \n");
                 }
@@ -329,11 +363,13 @@ public class ClassActivity extends AppCompatActivity {
             //TexView di caricamento
             TextView t=(TextView)findViewById(R.id.tvLoading);
             t.setVisibility(View.GONE);
-
+            createTableHeader();
             //Metodo base
-            loadTableRow(edScelti, s, orariList, auleLibereList ,stk);
+            loadTableRow(edScelti, s, orariList, noteList, auleLibereList ,stk);
+
             //Metodo di prova
 //            loadTableRow_PROVA(edScelti,s,orariList,auleList,stk);
+//            stampaTutto(s,orariList,noteList,stk);
         }
   }//end ParseURL
 }//end ClassActivity
