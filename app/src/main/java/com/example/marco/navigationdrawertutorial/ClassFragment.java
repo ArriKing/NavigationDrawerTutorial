@@ -83,11 +83,8 @@ public class ClassFragment extends DialogFragment {
         };
 
         myList = (ListView)context.findViewById(R.id.list_Ed);
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_multiple_choice, Edifici);
-
         myList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
         myList.setAdapter(adapter);
 
 

@@ -101,10 +101,10 @@ public class Corsi_DBHandler extends SQLiteOpenHelper {
     }
 
     // Deleting a Corso
-    public void deleteCorso(Corso corso) {
+    public void deleteCorso(String titolo) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_CORSI, KEY_ID + " = ?",
-                new String[] { String.valueOf(corso.getNumero_Corso()) });
+        db.delete(TABLE_CORSI, KEY_NAME + " = ?",
+                new String[] { titolo });
         db.close();
     }
 }

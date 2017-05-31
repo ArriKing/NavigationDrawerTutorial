@@ -64,25 +64,17 @@ public class BachecaFragment extends DialogFragment {
         };
 
         myList = (ListView)context.findViewById(R.id.list);
-
-
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_multiple_choice, Corsi_di_laurea);
-
         myList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
         myList.setAdapter(adapter);
 
+        //BUTTON PER INSERIRE UUN NUOVO CORSO E VISULIZZARE IL RIEPILOGO
+        //SEGUI
         Button getChoice=(Button)context.findViewById(R.id.getchoice);
         getChoice.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-
-                // TODO Auto-generated method stub
-
-                //String[] selected = new String[0];
                 String selected="";
                 int cntChoice = myList.getCount();
-
                 SparseBooleanArray sparseBooleanArray = myList.getCheckedItemPositions();
                 //Controllo che abbia selezionato almeno un corso
                 if(sparseBooleanArray.size()==0){
@@ -102,10 +94,21 @@ public class BachecaFragment extends DialogFragment {
 
                 Intent intent=new Intent(context, BachecaActivity.class);
                 intent.putExtra("c_list", selected);
+                intent.putExtra("view", 1);
                 startActivity(intent);
 
                 //Toast.makeText(getActivity(),selected, Toast.LENGTH_LONG).show();
             }});
+
+        //BUTTON PER VISULIZZARE SOLO IL RIEPILOGO
+        Button getView=(Button)context.findViewById(R.id.getview);
+        getView.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                Intent intent=new Intent(context, BachecaActivity.class);
+                intent.putExtra("view", 0);
+                startActivity(intent);
+            }
+        });
 
 
     }

@@ -71,25 +71,27 @@ public class NoticeBoardFragment extends Fragment {
         int hours = rightNow.get(Calendar.HOUR_OF_DAY);
         int minuts = rightNow.get(Calendar.MINUTE);
 
+        //LISTA PER I CORSI, PER I MESSAGGI  E LA STRINGA CONTENETE LA DATA E L'ORA
         List<Corso> corsi = db.getAllCorsi();
         List<Messaggio> msgList = db_msg.getAllMsg();
         String DATA = "" + day_of_the_month+"/"+month+"/"+ year+" "+ hours+":"+minuts;
 
-//DELETE PER PULIRE IL DB
-//        for (Corso corso : corsi) {
-//            Messaggio msg=new Messaggio(corso.getNome_Corso(), "Sospensione lezione ", DATA);
-//            db_msg.deleteMsg(msg);
-//        }
 
-        for (Corso corso : corsi) {
-            Messaggio msg_new=new Messaggio(corso.getNome_Corso(), "Sospensione lezione ", DATA);
-            db_msg.addMsg(msg_new);
-            msgList.add(msg_new);
-        }
+//QUESTO PEZZO FUNZIONA, VA ADATTATO AL SISTEMA CHE USEREMO PER RICEVERE I MESSAGGI DAL DOCENTE
+        //DELETE PER PULIRE IL DB
+         //db_msg.DeletAllMsg();
+
+//        for (Corso corso : corsi) {
+//            Messaggio msg_new=new Messaggio(corso.getNome_Corso(), "Sospensione lezione ", DATA);
+//            db_msg.addMsg(msg_new);
+        // inserisce il nuovo messaggio nella lista dei messaggi da visualizzare
+//            msgList.add(msg_new);
+//        }
 
         for (Messaggio msg : msgList) {
             messaggeList.add(msg);
         }
+        //pulisco la lista dei messsaggi
         msgList.clear();
         mAdapter.notifyDataSetChanged();
     }

@@ -116,5 +116,12 @@ public class Messaggi_DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void DeletAllMsg() {
+// Select All Query
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_MESS,null,null);
+       // db.execSQL("delete * from "+ TABLE_MESS);
+       // db.close();
+    }
 
 }
