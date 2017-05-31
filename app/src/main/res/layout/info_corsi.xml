@@ -1,31 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:orientation="vertical"
-    android:layout_gravity="center_horizontal"
     tools:context=".BachecaActivity">
 
-
-    <Button
-        android:id="@+id/getdelete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="CANCELLA CORSI"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored" />
-
-    <ListView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/corsi"
-        android:layout_gravity="left"
-        android:textColor="@android:color/black"
-        style="@style/CustomTextView" />
+        android:orientation="vertical"
+        android:padding="10dip" >
 
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="GESTIONE CORSI"
+            style="@style/CustomTitle" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:layout_gravity="left"
+            android:text="Corsi seguiti"
+            style="@style/CustomTextView" />
+
+        <ListView
+            android:id="@+id/lv_corsi_seguiti"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="10dip"
+            android:background="#B29090"/>
+
+        <Button
+            android:id="@+id/bt_delete_corso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="CANCELLA CORSI"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:layout_gravity="left"
+            android:text="Tutti i corsi"
+            style="@style/CustomTextView" />
+
+        <ListView
+            android:id="@+id/lv_nuovi_corsi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="10dip"
+            android:background="#4A9C67"/>
+
+        <Button
+            android:id="@+id/bt_segui_corso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="SEGUI CORSI"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored" />
+    </LinearLayout>
+
+</ScrollView>

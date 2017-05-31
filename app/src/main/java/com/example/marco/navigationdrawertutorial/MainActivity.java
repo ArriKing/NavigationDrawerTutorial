@@ -107,11 +107,15 @@ public class MainActivity extends AppCompatActivity
             android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_account) {
-
         } else if (id == R.id.nav_manage_subs) {
             //set the fragment initially
             BachecaFragment fragment =new BachecaFragment();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
+        } else if (id == R.id.nav_account) {
+            //set the fragment initially
+            AccountFragment fragment= new AccountFragment();
             android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();

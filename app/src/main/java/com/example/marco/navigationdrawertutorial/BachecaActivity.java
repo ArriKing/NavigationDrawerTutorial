@@ -1,29 +1,43 @@
 package com.example.marco.navigationdrawertutorial;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.SparseBooleanArray;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
-
-import static com.example.marco.navigationdrawertutorial.R.id.parent;
 
 /**
  * Created by Marco on 12/05/2017.
  */
 
 public class BachecaActivity extends AppCompatActivity{
-    ListView myList;
-    public static final int VIEW = 0;
+    ListView lvCorsiSeguiti;
+    ListView lvNuoviCorsi;
+
+    private String [] data1 ={"Hiren", "Pratik", "Dhruv", "Narendra", "Piyush", "Priyank"};
+    private String [] data2 ={"Kirit", "Miral", "Bhushan", "Jiten", "Ajay", "Kamlesh"};
+    String[] nuoviCorsi = {
+            "21055:Analisi I",
+            "21011:Fisica I",
+            "21010:Chimica",
+            "21012:Informatica I",
+            "22012:Calcolatori elettronici",
+            "23012:Informatica II",
+            "24012:Fisica II",
+            "25052:Sistemi operativi",
+            "23042:Geometria e algebra lineare",
+            "21512:Fondamenti di automatica",
+            "21019:Economia e organizzzazione aziendale",
+            "27012:Fondamenti di elettronica"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,18 +51,85 @@ public class BachecaActivity extends AppCompatActivity{
 
     public void onStart(){
         super.onStart();
-        //valore che mi discrtizza il riepilogo dall'aggiunta di un corso
-        int Riepilogo_corsi = getIntent().getIntExtra("view",VIEW);
 
         final Corsi_DBHandler db = new Corsi_DBHandler(this);
-
         List<Corso> corsi = db.getAllCorsi();
-        //Questo va se voglio aggingere corsi, se voglio il riepilogo non serve aggiungere per forza!
-        if(Riepilogo_corsi!=0){
-        String[] selected = getIntent().getStringExtra("c_list").split(",");
-        if (selected.length>0){
-            for(int i=0;i<selected.length;i++){
-                String[] info = selected[i].split(":");
+
+//GESTIONE CORSI SEGUITI
+        //estraiamo tutti i corsi e li salviamo in una lista
+        String[] corsiSeguiti = new String[corsi.size()];
+        for(int i=0;i<corsi.size();i++){
+            corsiSeguiti[i]=corsi.get(i).getNome_Corso();
+        }
+        //setto la ListView
+        lvCorsiSeguiti =(ListView)findViewById(R.id.lv_corsi_seguiti);
+        ArrayAdapter<String> adapterSeguiti = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, corsiSeguiti);
+        lvCorsiSeguiti.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        lvCorsiSeguiti.setAdapter(adapterSeguiti);
+        ListUtils.setDynamicHeight(lvCorsiSeguiti);
+
+        //Bottone per eliminare corso e visualizzare riepilogo
+        Button deleteCorsoBtn=(Button)findViewById(R.id.bt_delete_corso);
+        deleteCorsoBtn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                SparseBooleanArray sparseBooleanArray = lvCorsiSeguiti.getCheckedItemPositions();
+                //Controllo che abbia selezionato almeno un corso
+                if(sparseBooleanArray.size()==0){
+                    Toast.makeText(getApplicationContext(),"Seleziona un corso da cancellare",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                for(int i=0;i<lvCorsiSeguiti.getCount();i++){
+                    if(sparseBooleanArray.get(i)){
+                        db.deleteCorso(lvCorsiSeguiti.getItemAtPosition(i).toString());
+                    }
+                }
+                //ricarico l'activity
+//                Intent intent= getIntent();
+//                finish();
+//                startActivity(intent);
+                refreshActivity();
+            }});
+
+//GESTIONE CORSI DA SEGUIRE
+        //Gestione ListView
+        lvNuoviCorsi =(ListView)findViewById(R.id.lv_nuovi_corsi);
+        ArrayAdapter<String> adapterNuovi = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, nuoviCorsi);
+        lvNuoviCorsi.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        lvNuoviCorsi.setAdapter(adapterNuovi);
+        ListUtils.setDynamicHeight(lvNuoviCorsi);
+
+        Button followCorsoBtn=(Button)findViewById(R.id.bt_segui_corso);
+        followCorsoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String selected="";
+                SparseBooleanArray sparseBooleanArray = lvNuoviCorsi.getCheckedItemPositions();
+                if(sparseBooleanArray.size()==0){
+                    Toast.makeText(getApplicationContext(),"Seleziona un corso",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                for(int i = 0; i < lvNuoviCorsi.getCount(); i++){
+                    if(sparseBooleanArray.get(i)) {
+                        selected+= lvNuoviCorsi.getItemAtPosition(i).toString() + ",";
+                    }
+                }
+                //aggiorno il db
+                addToDBCorso(selected);
+                //ricarico l'activity
+                refreshActivity();
+            }
+        });
+
+
+    }//end onStart()
+
+    public void addToDBCorso(String corsiSelezionati){
+        final Corsi_DBHandler db = new Corsi_DBHandler(this);
+        List<Corso> corsi = db.getAllCorsi();
+        String[] selectedCorsi = corsiSelezionati.split(",");
+        if (selectedCorsi.length>0){
+            for(int i=0;i<selectedCorsi.length;i++){
+                String[] info = selectedCorsi[i].split(":");
                 boolean corsoFound=false;
                 Corso corso = new Corso(info[0],info[1]);
                 for(Corso c : corsi){
@@ -57,45 +138,36 @@ public class BachecaActivity extends AppCompatActivity{
                 }
                 if(!corsoFound){
                     db.addCorso(corso);
-                    //aggingaiamo alla lista corsi così da mantenerla aggiornata
-                    corsi.add(corso);
                 }
-               }
             }
         }
-        //estraiamo tutti i corsi e li salviamo in una lista
-        String[] corsi_di_laurea = new String[corsi.size()];
-        int k=0;
-        for (Corso corso : corsi){
-            corsi_di_laurea[k]=corso.getNome_Corso();
-            k++;
+    }
+
+    public void refreshActivity(){
+        Intent intent = new Intent(this, BachecaActivity.class);
+        finish();
+        startActivity(intent);
+    }
+
+//CLASSE UTILS
+    public static class ListUtils {
+        public static void setDynamicHeight(ListView mListView) {
+            ListAdapter mListAdapter = mListView.getAdapter();
+            if (mListAdapter == null) {
+                // when adapter is null
+                return;
+            }
+            int height = 0;
+            int desiredWidth = View.MeasureSpec.makeMeasureSpec(mListView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+            for (int i = 0; i < mListAdapter.getCount(); i++) {
+                View listItem = mListAdapter.getView(i, null, mListView);
+                listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+                height += listItem.getMeasuredHeight();
+            }
+            ViewGroup.LayoutParams params = mListView.getLayoutParams();
+            params.height = height + (mListView.getDividerHeight() * (mListAdapter.getCount() - 1));
+            mListView.setLayoutParams(params);
+            mListView.requestLayout();
         }
-        myList = (ListView)findViewById(R.id.corsi);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, corsi_di_laurea);
-        myList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        myList.setAdapter(adapter);
-
-        //BUTTON PER ELIMINARE UN CORSO E VISULIZZARE IL RIEPILOGO
-        Button getDelete=(Button) findViewById(R.id.getdelete);
-
-        getDelete.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                int cntChoice = myList.getCount();
-                SparseBooleanArray sparseBooleanArray = myList.getCheckedItemPositions();
-                //Controllo che abbia selezionato almeno un corso
-                if(sparseBooleanArray.size()==0){
-                    Toast.makeText(getApplicationContext(),"Seleziona un corso da cancellare",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                for(int i = 0; i < cntChoice; i++){
-                    if(sparseBooleanArray.get(i)) {
-                        db.deleteCorso(myList.getItemAtPosition(i).toString());
-                    }
-                }
-                //resetta la pagina
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
-            }});
     }
 }

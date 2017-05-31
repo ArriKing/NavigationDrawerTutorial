@@ -22,7 +22,7 @@ public class BachecaFragment extends DialogFragment {
     ListView myList;
     Button getChoice;
     Activity context;
-    //String[] Corsi_di_laurea;
+    //String[] nuoviCorsi;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class BachecaFragment extends DialogFragment {
 //
 //
 //
-//        Toast.makeText(getActivity(), Corsi_di_laurea[4], Toast.LENGTH_LONG).show();
+//        Toast.makeText(getActivity(), nuoviCorsi[4], Toast.LENGTH_LONG).show();
 
         String[] Corsi_di_laurea = {
                 "21055:Analisi I",
@@ -62,7 +62,7 @@ public class BachecaFragment extends DialogFragment {
                 "21019:Economia e organizzzazione aziendale",
                 "27012:Fondamenti di elettronica"
         };
-
+        //Gestione ListView
         myList = (ListView)context.findViewById(R.id.list);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_multiple_choice, Corsi_di_laurea);
         myList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
