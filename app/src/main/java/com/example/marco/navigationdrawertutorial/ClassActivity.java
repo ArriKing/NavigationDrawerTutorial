@@ -61,6 +61,8 @@ public class ClassActivity extends AppCompatActivity {
         //Setto testo TexView e Intestazione tabella
         TextView tvShowTime=(TextView)findViewById(R.id.tvShowTimeRange);
         tvShowTime.setText("Aule libere dalle "+oraInizio+" alle "+oraFine);
+        //Setto tabella
+        stk = (TableLayout) findViewById(R.id.table_main);
 
         String todayUrl = "http://www03.unibg.it//orari//orario_giornaliero.php?db=IN&data=oggi&orderby=ora";
         String otherDayUrl = "http://www03.unibg.it//orari//orario_giornaliero.php?db=IN&data=30/05/2017&orderby=ora";
@@ -69,22 +71,20 @@ public class ClassActivity extends AppCompatActivity {
 
     }
 
-
     public void onStart(){
         super.onStart();
     }
 
+
     //Creo intestazione tabella
     public void createTableHeader(){
-        //Creazione intestazione tabella dinamica
-        stk = (TableLayout) findViewById(R.id.table_main);
         //riga della tabella
         TableRow tHeader = new TableRow(this);
         //prima colonna
         TextView tv0 = new TextView(this);
         tv0.setText(" AULA ");
         tv0.setTextAppearance(this, R.style.CustomTitle);
-        tv0.setGravity(Gravity.LEFT);
+        tv0.setGravity(Gravity.CENTER);
         tHeader.addView(tv0);
         //seconda colonna
         TextView tv1 = new TextView(this);
@@ -96,7 +96,7 @@ public class ClassActivity extends AppCompatActivity {
         TextView tv2 = new TextView(this);
         tv2.setText(" STATO ");
         tv2.setTextAppearance(this, R.style.CustomTitle);
-        tv2.setGravity(Gravity.RIGHT);
+        tv2.setGravity(Gravity.CENTER);
         tHeader.addView(tv2);
         //aggiungo la riga
         stk.addView(tHeader);
@@ -105,7 +105,7 @@ public class ClassActivity extends AppCompatActivity {
 //---------------METODI DI PROVA: CARICO TUTTE LE RIGHE DELLA TABELLA CHE RISPETTANO I REQUISITI
     //Carico le aule filtrate in base agli edScelti nella riga
     public void loadAndWriteAuleFiltrateList(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, char ed, TableLayout tbl){
-        createBusyList(al,ol, nl);
+        addToAuleOccupateList(al,ol, nl);
         for(int k=0;k<al.size();k++){
             boolean foundBusy=false;
             if(al.get(k).trim().charAt(0)==ed){
@@ -120,7 +120,7 @@ public class ClassActivity extends AppCompatActivity {
                     TextView tAula = new TextView(this);
                     tAula.setText(al.get(k));
                     tAula.setTextAppearance(this, R.style.CustomTextView);
-                    tAula.setGravity(Gravity.LEFT);
+                    tAula.setGravity(Gravity.CENTER);
                     tbRow.addView(tAula);
                     //Aggiungo l'orario
                     TextView tOrario = new TextView(this);
@@ -132,7 +132,7 @@ public class ClassActivity extends AppCompatActivity {
                     TextView tStato = new TextView(this);
                     tStato.setText("OCCUPATA");
                     tStato.setTextAppearance(this, R.style.CustomTextView);
-                    tStato.setGravity(Gravity.RIGHT);
+                    tStato.setGravity(Gravity.CENTER);
                     tbRow.addView(tStato);
                     //aggiungo la riga finita
                     tbl.addView(tbRow);
@@ -141,7 +141,7 @@ public class ClassActivity extends AppCompatActivity {
         }
     }
     //Carico tutte le righe in tabella
-    public void loadTableRow_PROVA(String[] edifici, ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, ArrayList<String> all, TableLayout tbl){
+    public void loadTableRow_PROVA(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, ArrayList<String> all, TableLayout tbl, String[] edifici){
         for (int i = 0; i < edifici.length; i++) {
             switch(edifici[i].charAt(9)){
                 case 'A':
@@ -162,16 +162,51 @@ public class ClassActivity extends AppCompatActivity {
         }
     }
 
+    //Test methods
+    public void stampaTutto(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, TableLayout tbl){
+        for(int i=0;i<al.size();i++){
+            //ricorda di creare la riga ogni volta!
+            TableRow tbRow = new TableRow(this);
+            //Aggiungo l'aula
+            TextView tAula = new TextView(this);
+            tAula.setText(al.get(i));
+            tAula.setTextAppearance(this, R.style.CustomTextView);
+            tAula.setGravity(Gravity.CENTER);
+            tbRow.addView(tAula);
+            //Aggiungo l'orario
+            TextView tOrario = new TextView(this);
+            tOrario.setText(ol.get(i));
+            tOrario.setTextAppearance(this, R.style.CustomTextView);
+            tOrario.setGravity(Gravity.CENTER);
+            tbRow.addView(tOrario);
+
+            String isSosp;
+            if(nl.get(i).charAt(0)=='S')
+                isSosp="true";
+            else
+                isSosp="";
+
+            //Aggiungo lo stato
+            TextView tNote = new TextView(this);
+            tNote.setText(isSosp);
+            tNote.setTextAppearance(this, R.style.CustomTextView);
+            tNote.setGravity(Gravity.CENTER);
+            tbRow.addView(tNote);
+            //aggiungo la riga finita
+            tbl.addView(tbRow);
+        }
+    }
+
 //-----------UTILS--------------
     //Controllo orario inserito con quello di ogni aula e mando in output se è occupata o no
-    public boolean isBusy(ArrayList<String> ol, int indice){
+    public boolean isBusy(ArrayList<String> ol, int index){
         SimpleDateFormat parser = new SimpleDateFormat("HH.mm");
         Date beginLimit;
         Date endLimit;
         Date beginClass;
         Date endClass;
         boolean busy=false;
-        String orari[]=ol.get(indice).split("-");
+        String orari[]=ol.get(index).split("-");
         try{
             beginLimit=parser.parse(oraInizio);
             endLimit=parser.parse(oraFine);
@@ -193,17 +228,16 @@ public class ClassActivity extends AppCompatActivity {
                     busy=false;
             }
         }catch (ParseException e){
-            //DO_SOMETHING
             Toast.makeText(getApplicationContext(),"PARSE EXCEPTION",Toast.LENGTH_LONG).show();
+            e.printStackTrace();
         }
         return busy;
     }
     //Aggiungo le aule occupate a auleOccupateList
-    public void createBusyList(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl){
+    public void addToAuleOccupateList(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl){
         for(int i=0;i<al.size();i++){
             if(isBusy(ol,i) && nl.get(i).charAt(0)!='S')
                 auleOccupateList.add(al.get(i));
-
         }
     }
 
@@ -223,7 +257,7 @@ public class ClassActivity extends AppCompatActivity {
     }
     //Cerco le aule libere e le aggiungo alla lista tramite il metodi addToAuleLibereList
     public void findAuleLibere(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, ArrayList<String> all){
-        createBusyList(al, ol, nl);
+        addToAuleOccupateList(al, ol, nl);
         for(int k=0;k<al.size();k++){
             boolean foundBusy=false;
             for(int i=0;i<auleOccupateList.size();i++){
@@ -235,7 +269,6 @@ public class ClassActivity extends AppCompatActivity {
             }
         }
     }
-
     //Scrivo effettivamente le aule libere trovate in tabella, in base all'edificio scelto
     public void writeAuleLibere(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, ArrayList<String> all, TableLayout tbl, char ed){
         findAuleLibere(al, ol, nl, all);
@@ -243,19 +276,21 @@ public class ClassActivity extends AppCompatActivity {
             if(all.get(i).charAt(0)==ed){
                 TableRow tbRow = new TableRow(this);
 
+                TextView tvLeft=new TextView(this);
+                tbRow.addView(tvLeft);
+
                 TextView tAula = new TextView(this);
                 tAula.setText(all.get(i));
-                tAula.setTextAppearance(this, R.style.CustomTextView);
-                tAula.setGravity(Gravity.LEFT);
+                tAula.setTextAppearance(this, R.style.CustomTitle);
+                tAula.setGravity(Gravity.CENTER);
                 tbRow.addView(tAula);
 
                 tbl.addView(tbRow);
             }
         }
     }
-
-    //Carico tutte le righe in tabella
-    public void loadTableRow(String[] edifici, ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, ArrayList<String> all, TableLayout tbl){
+    //Carico le righe in tabella
+    public void loadTableRow(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, ArrayList<String> all, TableLayout tbl, String[] edifici){
         for (int i = 0; i < edifici.length; i++) {
             switch(edifici[i].charAt(9)){
                 case 'A':
@@ -276,40 +311,6 @@ public class ClassActivity extends AppCompatActivity {
         }
     }
 
-    //Test methods
-    public void stampaTutto(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, TableLayout tbl){
-        for(int i=0;i<al.size();i++){
-            //ricorda di creare la riga ogni volta!
-            TableRow tbRow = new TableRow(this);
-            //Aggiungo l'aula
-            TextView tAula = new TextView(this);
-            tAula.setText(al.get(i));
-            tAula.setTextAppearance(this, R.style.CustomTextView);
-            tAula.setGravity(Gravity.LEFT);
-            tbRow.addView(tAula);
-            //Aggiungo l'orario
-            TextView tOrario = new TextView(this);
-            tOrario.setText(ol.get(i));
-            tOrario.setTextAppearance(this, R.style.CustomTextView);
-            tOrario.setGravity(Gravity.CENTER);
-            tbRow.addView(tOrario);
-
-            String isSosp;
-            if(nl.get(i).charAt(0)=='S')
-                isSosp="true";
-            else
-                isSosp="";
-
-            //Aggiungo lo stato
-            TextView tNote = new TextView(this);
-            tNote.setText(isSosp);
-            tNote.setTextAppearance(this, R.style.CustomTextView);
-            tNote.setGravity(Gravity.RIGHT);
-            tbRow.addView(tNote);
-            //aggiungo la riga finita
-            tbl.addView(tbRow);
-        }
-    }
 
 
 //------------------CLASSE PARSING SULLA PAGINA HTML--------------------------
@@ -319,7 +320,6 @@ public class ClassActivity extends AppCompatActivity {
 
         @Override
         protected ArrayList<String> doInBackground(String... strings) {
-            //StringBuffer buffer = new StringBuffer();
             try {
                 Log.d("JSwa", "Connecting to ["+strings[0]+"]");
                 Document doc  = Jsoup.connect(strings[0]).get();
@@ -327,27 +327,22 @@ public class ClassActivity extends AppCompatActivity {
 
                 Element table = doc.select("table").get(0);
                 Elements rowElems = table.select("tr");
-                //buffer.append("AULE DATA\r\n");
-
                 for(int i=1; i<rowElems.size();i++){
                     Element row = rowElems.get(i);
                     Elements cols = row.select("td");
                     String aule[]=cols.get(3).text().split("\\(");
-                    //Prendo solo le aule degli ed A,B e C
+                    //Prendo solo le aule degli ed A,B o C
                     if((aule[0].charAt(0)=='A') || (aule[0].charAt(0)=='B') || (aule[0].charAt(0)=='C')){
                         auleList.add(aule[0]);
                         String orari[]=cols.get(3).text().split("\\)");
                         orariList.add(orari[1]);
                         noteList.add(cols.get(4).text().trim());
                     }
-                    //buffer.append(aule[0]+ " ; " + orari[1] +" \r\n \n");
                 }
             }
             catch(Throwable t) {
                 t.printStackTrace();
             }
-
-            //return buffer.toString();
             return auleList;
         }
 
@@ -363,13 +358,14 @@ public class ClassActivity extends AppCompatActivity {
             //TexView di caricamento
             TextView t=(TextView)findViewById(R.id.tvLoading);
             t.setVisibility(View.GONE);
-            createTableHeader();
-            //Metodo base
-            loadTableRow(edScelti, s, orariList, noteList, auleLibereList ,stk);
 
-            //Metodo di prova
-//            loadTableRow_PROVA(edScelti,s,orariList,auleList,stk);
-//            stampaTutto(s,orariList,noteList,stk);
+            loadTableRow(s, orariList, noteList, auleLibereList ,stk, edScelti);
+
+//METODI DI PROVA
+            createTableHeader();
+            loadTableRow_PROVA(s,orariList,noteList,auleLibereList,stk,edScelti);
+            //stampaTutto(s,orariList,noteList,stk);
         }
+
   }//end ParseURL
 }//end ClassActivity
