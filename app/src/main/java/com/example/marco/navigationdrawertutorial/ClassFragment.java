@@ -127,6 +127,7 @@ public class ClassFragment extends DialogFragment {
 
         });
 
+        /*
         //PROVA NOTIFICHE
         Button btNotif=(Button)context.findViewById(R.id.bt_test);
         btNotif.setOnClickListener(new View.OnClickListener(){
@@ -134,7 +135,7 @@ public class ClassFragment extends DialogFragment {
                 getNotification();
             }
         });
-
+        //PROVA PARSING HTML
         Button btHtml=(Button)context.findViewById(R.id.bt_html_test);
         btHtml.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
@@ -142,7 +143,7 @@ public class ClassFragment extends DialogFragment {
                 startActivity(intent);
                 //Toast.makeText(context,"Bravoh!",Toast.LENGTH_LONG).show();
             }
-        });
+        });*/
 
 
 

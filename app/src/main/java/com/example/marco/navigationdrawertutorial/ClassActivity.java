@@ -362,8 +362,8 @@ public class ClassActivity extends AppCompatActivity {
             loadTableRow(s, orariList, noteList, auleLibereList ,stk, edScelti);
 
 //METODI DI PROVA
-            createTableHeader();
-            loadTableRow_PROVA(s,orariList,noteList,auleLibereList,stk,edScelti);
+//            createTableHeader();
+//            loadTableRow_PROVA(s,orariList,noteList,auleLibereList,stk,edScelti);
             //stampaTutto(s,orariList,noteList,stk);
         }
 
