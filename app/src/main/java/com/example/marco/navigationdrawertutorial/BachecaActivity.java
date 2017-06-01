@@ -123,6 +123,7 @@ public class BachecaActivity extends AppCompatActivity{
 
     }//end onStart()
 
+    //Metodo per aggiornare il db con i nuovi corsi seguiti
     public void addToDBCorso(String corsiSelezionati){
         final Corsi_DBHandler db = new Corsi_DBHandler(this);
         List<Corso> corsi = db.getAllCorsi();
@@ -142,7 +143,7 @@ public class BachecaActivity extends AppCompatActivity{
             }
         }
     }
-
+    //Metodo per ricaricare l'activity e mostrare i cambiamenti
     public void refreshActivity(){
         Intent intent = new Intent(this, BachecaActivity.class);
         finish();
