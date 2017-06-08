@@ -9,12 +9,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 public class NoticeBoardFragment extends Fragment {
+
+    //PROVA REALTIME DB
+    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference mConditionRef = mRootRef.child("condition");
+
+
+
 
     //GESTIONE RECYCLERVIEW
     List<Messaggio> messaggeList=new ArrayList<>();
@@ -32,15 +46,6 @@ public class NoticeBoardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //context.setContentView(R.layout.fragment_notice_board);
-//        //RECYCLERVIEW
-//        RecyclerView recyclerView=(RecyclerView)context.findViewById(R.id.recycler_view);
-//        mAdapter=new MessageAdapter(messaggeList);
-//        RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(context);
-//        recyclerView.setLayoutManager(mLayoutManager);
-//        recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        recyclerView.setAdapter(mAdapter);
-//        prepareMessageData();
     }
 
     public void onStart(){
@@ -54,11 +59,28 @@ public class NoticeBoardFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-        prepareMessageData();
+        //prepareMessageData();
+
+
+
+        //PROVA REALTIME DB
+        mConditionRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String text = dataSnapshot.getValue(String.class);
+                prepareMessageData(text);
+//                mConditionTextView.setText(text);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     //RIEMPIE LA RECYLCERVIEW
-    private void prepareMessageData(){
+    /*private void prepareMessageData(){
         final Corsi_DBHandler db = new Corsi_DBHandler(this.getActivity());
         final Messaggi_DBHandler db_msg = new Messaggi_DBHandler(this.getActivity());
 
@@ -94,6 +116,11 @@ public class NoticeBoardFragment extends Fragment {
         //pulisco la lista dei messsaggi
         msgList.clear();
         mAdapter.notifyDataSetChanged();
-    }
+    }*/
 
+    private void prepareMessageData(String msgText) {
+        Messaggio message = new Messaggio("Corso a caso", msgText, "ora");
+        messaggeList.add(message);
+        mAdapter.notifyDataSetChanged();
+    }
 }
