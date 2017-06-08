@@ -120,9 +120,9 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
+
         getFragmentManager().popBackStack();
         fm.beginTransaction().replace(R.id.fragment_container, newFragment).addToBackStack("fragBack").commit();
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

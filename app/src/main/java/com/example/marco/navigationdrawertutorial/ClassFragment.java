@@ -135,6 +135,7 @@ public class ClassFragment extends DialogFragment {
                 getNotification();
             }
         });
+
         //PROVA PARSING HTML
         Button btHtml=(Button)context.findViewById(R.id.bt_html_test);
         btHtml.setOnClickListener(new View.OnClickListener(){

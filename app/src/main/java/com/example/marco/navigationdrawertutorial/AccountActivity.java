@@ -91,7 +91,7 @@ public class AccountActivity extends AppCompatActivity{
         ArrayAdapter<String> adapterNuovi = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, nuoviCorsi);
         lvNuoviCorsi.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         lvNuoviCorsi.setAdapter(adapterNuovi);
-        ListUtils.setDynamicHeight(lvNuoviCorsi);
+//        ListUtils.setDynamicHeight(lvNuoviCorsi);
 
         Button followCorsoBtn=(Button)findViewById(R.id.bt_segui_corso);
         followCorsoBtn.setOnClickListener(new View.OnClickListener() {
@@ -158,10 +158,13 @@ public class AccountActivity extends AppCompatActivity{
             for (int i = 0; i < mListAdapter.getCount(); i++) {
                 View listItem = mListAdapter.getView(i, null, mListView);
                 listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-                height += listItem.getMeasuredHeight();
+                height += listItem.getMeasuredHeight()+60;
             }
             ViewGroup.LayoutParams params = mListView.getLayoutParams();
-            params.height = height + (mListView.getDividerHeight() * (mListAdapter.getCount() - 1));
+            if(height<=500)
+                params.height = height + ((mListView.getDividerHeight() + 1) * (mListAdapter.getCount() -1 ));
+            else
+                params.height = 500;
             mListView.setLayoutParams(params);
             mListView.requestLayout();
         }
