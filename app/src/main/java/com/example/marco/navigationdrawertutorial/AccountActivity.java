@@ -18,12 +18,10 @@ import java.util.List;
  * Created by Marco on 12/05/2017.
  */
 
-public class BachecaActivity extends AppCompatActivity{
+public class AccountActivity extends AppCompatActivity{
     ListView lvCorsiSeguiti;
     ListView lvNuoviCorsi;
 
-    private String [] data1 ={"Hiren", "Pratik", "Dhruv", "Narendra", "Piyush", "Priyank"};
-    private String [] data2 ={"Kirit", "Miral", "Bhushan", "Jiten", "Ajay", "Kamlesh"};
     String[] nuoviCorsi = {
             "21055:Analisi I",
             "21011:Fisica I",
@@ -45,6 +43,7 @@ public class BachecaActivity extends AppCompatActivity{
 
         setContentView(R.layout.info_corsi);
         //inseriamo la gestione del pulsante UP per tornare indietro
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
@@ -83,10 +82,6 @@ public class BachecaActivity extends AppCompatActivity{
                         db.deleteCorso(lvCorsiSeguiti.getItemAtPosition(i).toString());
                     }
                 }
-                //ricarico l'activity
-//                Intent intent= getIntent();
-//                finish();
-//                startActivity(intent);
                 refreshActivity();
             }});
 
@@ -145,7 +140,7 @@ public class BachecaActivity extends AppCompatActivity{
     }
     //Metodo per ricaricare l'activity e mostrare i cambiamenti
     public void refreshActivity(){
-        Intent intent = new Intent(this, BachecaActivity.class);
+        Intent intent = new Intent(this, AccountActivity.class);
         finish();
         startActivity(intent);
     }

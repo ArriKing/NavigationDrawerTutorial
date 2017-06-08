@@ -2,6 +2,9 @@ package com.example.marco.navigationdrawertutorial;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 
@@ -32,21 +35,13 @@ public class MainActivity extends AppCompatActivity
 
         //set the fragment initially
         ClassFragment fragment =new ClassFragment();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
-        fragmentTransaction.commit();
+        FragmentManager fm = getSupportFragmentManager();
+        getFragmentManager().popBackStack();
+        fm.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack("HOME").commit();
 
         toolbar  = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -60,11 +55,23 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+       /* DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }*/
+        if (getSupportFragmentManager().findFragmentByTag("fragBack") != null) {
+
+        }
+        else {
+            super.onBackPressed();
+            return;
+        }
+        if (getSupportFragmentManager().getBackStackEntryCount() != 0) {
+            Fragment frag = getSupportFragmentManager().findFragmentByTag("fragBack");
+            FragmentTransaction transac = getSupportFragmentManager().beginTransaction().remove(frag);
+            transac.commit();
         }
     }
 
@@ -94,43 +101,27 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        //Dichiariamo un fragment generico
+        Fragment newFragment = new Fragment();
+        FragmentManager fm = getSupportFragmentManager();
 
-        if (id == R.id.nav_time_choice) {
-            //set the fragment initially
-            ClassFragment fragment =new ClassFragment();
-            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment);
-            fragmentTransaction.commit();
-        } else if (id == R.id.nav_notice_board) {
-            NoticeBoardFragment fragment=new NoticeBoardFragment();
-            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment);
-            fragmentTransaction.commit();
-        } else if (id == R.id.nav_account) {
-            //set the fragment initially
-            AccountFragment fragment= new AccountFragment();
-            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment);
-            fragmentTransaction.commit();
-        }else if (id == R.id.nav_info) {
-            //set the fragment initially
-            InfoFragment fragment= new InfoFragment();
-            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment);
-            fragmentTransaction.commit();
+        switch(item.getItemId()) {
+            case R.id.nav_time_choice:
+                newFragment = new ClassFragment();
+                break;
+            case R.id.nav_notice_board:
+                newFragment = new NoticeBoardFragment();
+                break;
+            case  R.id.nav_account:
+                newFragment = new AccountFragment();
+                break;
+            case  R.id.nav_info:
+                newFragment = new InfoFragment();
+                break;
         }
-        /*else if (id == R.id.nav_manage_subs) {
-            //set the fragment initially
-            BachecaFragment fragment =new BachecaFragment();
-            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment);
-            fragmentTransaction.commit();
-        } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
-
-        }*/
+        getFragmentManager().popBackStack();
+        fm.beginTransaction().replace(R.id.fragment_container, newFragment).addToBackStack("fragBack").commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
