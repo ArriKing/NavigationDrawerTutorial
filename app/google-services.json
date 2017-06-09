@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "1007136068175",
-    "firebase_url": "https://navigationdrawertutorial-a5540.firebaseio.com",
-    "project_id": "navigationdrawertutorial-a5540",
-    "storage_bucket": "navigationdrawertutorial-a5540.appspot.com"
+    "project_number": "858345714035",
+    "firebase_url": "https://teachersnotifications.firebaseio.com",
+    "project_id": "teachersnotifications",
+    "storage_bucket": "teachersnotifications.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1007136068175:android:25a51a708f77ee2a",
+        "mobilesdk_app_id": "1:858345714035:android:6fb1f1bd12d85d17",
         "android_client_info": {
-          "package_name": "com.example.marco.navigationdrawertutorial"
+          "package_name": "com.project.rm.teachersnotifications"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1007136068175-0836oro43sthd8c2nj6k4ldrh08f7pl2.apps.googleusercontent.com",
+          "client_id": "858345714035-stp9a51s1uf35t3830e73ds2pubm2se0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.marco.navigationdrawertutorial",
+            "package_name": "com.project.rm.teachersnotifications",
             "certificate_hash": "a85321a149aad1cd290b9b857183f9630c5fa725"
           }
         },
         {
-          "client_id": "1007136068175-r3gnv7kv6jhmvdvoqppeheumehoio25q.apps.googleusercontent.com",
+          "client_id": "858345714035-mhrvfcv0697bi9fghntld02ovbvktd2p.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB82V47pG70bv7QrX3kKIw1oL1NMt-67dU"
+          "current_key": "AIzaSyB0zWXQ1Y5tX1ESSga0DjjVkDbGmvF8O1U"
         }
       ],
       "services": {
@@ -40,10 +40,41 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "1007136068175-r3gnv7kv6jhmvdvoqppeheumehoio25q.apps.googleusercontent.com",
+              "client_id": "858345714035-mhrvfcv0697bi9fghntld02ovbvktd2p.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858345714035:android:25a51a708f77ee2a",
+        "android_client_info": {
+          "package_name": "com.example.marco.navigationdrawertutorial"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "858345714035-mhrvfcv0697bi9fghntld02ovbvktd2p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0zWXQ1Y5tX1ESSga0DjjVkDbGmvF8O1U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2
