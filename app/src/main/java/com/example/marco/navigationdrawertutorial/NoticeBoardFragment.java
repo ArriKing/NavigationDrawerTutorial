@@ -1,16 +1,24 @@
 package com.example.marco.navigationdrawertutorial;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.TaskStackBuilder;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,16 +26,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class NoticeBoardFragment extends Fragment {
 
+//    String corsoNotifica="";
+
     //PROVA REALTIME DB
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference mConditionRef = mRootRef.child("condition");
-
-
+//    DatabaseReference mNomeCorsoRef = mRootRef.child("NomeCorso");
+//    DatabaseReference mCorsoRef = mRootRef.child(corsoNotifica);
+//    DatabaseReference mMessaggioRef = mCorsoRef.child("Messaggio");
 
 
     //GESTIONE RECYCLERVIEW
@@ -61,15 +70,78 @@ public class NoticeBoardFragment extends Fragment {
 
         //prepareMessageData();
 
+//        mRootRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                corsoNotifica = dataSnapshot.child("NomeCorso").getValue(String.class);
+//                //mCorsoRef = mRootRef.child(corsoNotifica);
+//                Toast.makeText(context,corsoNotifica,Toast.LENGTH_LONG).show();
+//                String text = dataSnapshot.child(corsoNotifica).child("Messaggio").getValue(String.class);
+//                Toast.makeText(context, corsoNotifica+" - "+text, Toast.LENGTH_LONG).show();
+//                prepareMessageData(corsoNotifica, text);
+//                //sendNotification(corsoNotifica, text);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
 
-        //PROVA REALTIME DB
-        mConditionRef.addValueEventListener(new ValueEventListener() {
+        mRootRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.i("_", "add " + dataSnapshot);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//                Log.i("_", "changed " + dataSnapshot);
+//                corsoNotifica=dataSnapshot.getValue(String.class);
+//                corsoNotifica = dataSnapshot.child("NomeCorso").getValue(String.class);
+//                Toast.makeText(context,corsoNotifica,Toast.LENGTH_LONG).show();
+                String title =dataSnapshot.getKey().toString();
+                String text = dataSnapshot.child("Messaggio").getValue(String.class);
+//                Toast.makeText(context, title+" - "+text, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, " - "+text, Toast.LENGTH_LONG).show();
+                prepareMessageData(title, text);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.i("_", "removed " + dataSnapshot);
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                Log.i("_", "moved " + dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.i("_", "error " + databaseError);
+            }
+        });
+
+
+        //PRENDO IL NOME DEL CORSO
+       /* mNomeCorsoRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String text = dataSnapshot.getValue(String.class);
-                prepareMessageData(text);
+                corsoNotifica = dataSnapshot.getValue(String.class);
+                mCorsoRef = mRootRef.child(corsoNotifica);
+                Toast.makeText(context,corsoNotifica,Toast.LENGTH_LONG).show();
 //                mConditionTextView.setText(text);
+
+*//*
+
+                String text = mMessaggioRef.getRef().getKey();
+                Toast.makeText(context, corsoNotifica+" - "+text, Toast.LENGTH_LONG).show();
+                prepareMessageData(corsoNotifica, text);
+                sendNotification(corsoNotifica, text);
+*//*
+
             }
 
             @Override
@@ -77,6 +149,43 @@ public class NoticeBoardFragment extends Fragment {
 
             }
         });
+*/
+
+       /* mMessaggioRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String text = dataSnapshot.getValue(String.class);
+                Toast.makeText(context, corsoNotifica+" - "+text, Toast.LENGTH_LONG).show();
+                prepareMessageData(corsoNotifica, text);
+                sendNotification(corsoNotifica, text);
+//                mConditionTextView.setText(text);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });*/
+
+
+/*
+
+        //PASSO IL NOME DEL CORSO E CONTROLLO SE E' UNO DEI CORSI SEGUITI
+        final Corsi_DBHandler db = new Corsi_DBHandler(context);
+        List<Corso> corsi = db.getAllCorsi();
+        for(Corso c: corsi){
+            String c1=c.getNome_Corso().toUpperCase();
+            Toast.makeText(context, c1, Toast.LENGTH_LONG).show();
+            String c2=corsoNotifica.toUpperCase();
+            Toast.makeText(context, c2, Toast.LENGTH_LONG).show();
+            if(c1.equals(c2)){
+
+            }
+        }
+*/
+
+
     }
 
     //RIEMPIE LA RECYLCERVIEW
@@ -118,9 +227,32 @@ public class NoticeBoardFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
     }*/
 
-    private void prepareMessageData(String msgText) {
-        Messaggio message = new Messaggio("Corso a caso", msgText, "ora");
+
+    public void prepareMessageData(String corsoText, String msgText) {
+        Messaggio message = new Messaggio(corsoText, msgText, "ora");
         messaggeList.add(message);
         mAdapter.notifyDataSetChanged();
+
+    }
+
+    public void sendNotification(String title, String text){
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+        mBuilder.setSmallIcon(R.drawable.ic_menu_send);
+        mBuilder.setContentTitle(title);
+        mBuilder.setContentText(text);
+
+        Intent resultIntent = new Intent(context, NoticeBoardFragment.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(MainActivity.class);
+
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+// notificationID allows you to update the notification later on.
+        mNotificationManager.notify(1, mBuilder.build());
+
     }
 }
