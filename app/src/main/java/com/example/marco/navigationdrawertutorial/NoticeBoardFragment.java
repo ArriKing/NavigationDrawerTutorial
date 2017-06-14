@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class NoticeBoardFragment extends Fragment {
@@ -227,9 +228,20 @@ public class NoticeBoardFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
     }*/
 
+    //METODO CALENDAR PER LA DATA
+    public String getDate(){
+        Calendar rightNow = Calendar.getInstance();
+        int day_of_the_month = rightNow.get(Calendar.DAY_OF_MONTH);
+        int month = rightNow.get(Calendar.MONTH);
+        int year = rightNow.get(Calendar.YEAR);
+        int hours = rightNow.get(Calendar.HOUR_OF_DAY);
+        int minuts = rightNow.get(Calendar.MINUTE);
+        String DATA = "" + day_of_the_month+"/"+month+"/"+ year+" "+ hours+":"+minuts;
+        return DATA;
+    }
 
     public void prepareMessageData(String corsoText, String msgText) {
-        Messaggio message = new Messaggio(corsoText, msgText, "ora");
+        Messaggio message = new Messaggio(corsoText, msgText, getDate());
         messaggeList.add(message);
         mAdapter.notifyDataSetChanged();
 
