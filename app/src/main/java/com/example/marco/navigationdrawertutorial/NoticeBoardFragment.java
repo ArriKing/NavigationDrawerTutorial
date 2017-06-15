@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -46,6 +47,7 @@ public class NoticeBoardFragment extends Fragment {
     MessageAdapter mAdapter;
 
     Activity context;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,43 +93,30 @@ public class NoticeBoardFragment extends Fragment {
 //
 //            }
 //        });
-
+        MessageDataBoardCreator();
 
         mRootRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                List<Corso> iscrizione_corsi = db_corsi.getAllCorsi();
-                for (Corso c : iscrizione_corsi) {
-                    if(dataSnapshot.getKey().toString()==c.getNome_Corso())
-                        Log.i("_", "add " + dataSnapshot);
-                    else
-                        Log.i("_", "Non iscritto al corso");
-                }
-
+                Log.i("_", "add " + dataSnapshot);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 List<Corso> iscrizione_corsi = db_corsi.getAllCorsi();
-//                Log.i("_", "changed " + dataSnapshot);
-//                corsoNotifica=dataSnapshot.getValue(String.class);
-//                corsoNotifica = dataSnapshot.child("NomeCorso").getValue(String.class);
-//                Toast.makeText(context,corsoNotifica,Toast.LENGTH_LONG).show();
                 String title =dataSnapshot.getKey().toString();
                 String text = dataSnapshot.child("Messaggio").getValue(String.class);
+                //controllo tutti i corsi a cui sono iscritto e vedo se il messaggio mi interessa o no
                 Boolean flag = false;
                 for (Corso c : iscrizione_corsi) {
                     if(title.equals(c.getNome_Corso())){
-//                      Toast.makeText(context, title+" - "+text, Toast.LENGTH_LONG).show();
-                        Toast.makeText(context, " - "+text, Toast.LENGTH_LONG).show();
                         prepareMessageData(title, text);
                         flag=true;
                         break;
                     }
                 }
-                if(!flag)
-                    Toast.makeText(context,"Non iscritto al corso",Toast.LENGTH_LONG).show();
+              // if(flag)
+                   //refreshFragment();
             }
 
             @Override
@@ -208,7 +197,7 @@ public class NoticeBoardFragment extends Fragment {
 */
 
 
-    }
+    }//fine OnStart
 
     //RIEMPIE LA RECYLCERVIEW
     /*private void prepareMessageData(){
@@ -263,10 +252,28 @@ public class NoticeBoardFragment extends Fragment {
     }
 
     public void prepareMessageData(String corsoText, String msgText) {
+        Messaggi_DBHandler db_mess = new Messaggi_DBHandler(context);
         Messaggio message = new Messaggio(corsoText, msgText, getDate());
         messaggeList.add(message);
+        db_mess.addMsg(message);
         mAdapter.notifyDataSetChanged();
+    }
 
+    public void MessageDataBoardCreator(){
+        Messaggi_DBHandler db_mess = new Messaggi_DBHandler(context);
+        List<Messaggio> all_msg = db_mess.getAllMsg();
+        for(Messaggio m : all_msg){
+            messaggeList.add(m);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+    public void refreshFragment(){
+       // getFragmentManager().beginTransaction().detach(context).attach(context).commit();
+//        Fragment currentFragment = getFragmentManager().findFragmentByTag("NoticeBoardFragment");
+//        FragmentTransaction fragTransaction = getFragmentManager().beginTransaction();
+//        fragTransaction.detach(currentFragment);
+//        fragTransaction.attach(currentFragment);
+//        fragTransaction.commit();
     }
 
     public void sendNotification(String title, String text){
