@@ -35,6 +35,7 @@ public class NoticeBoardFragment extends Fragment {
 
     //PROVA REALTIME DB
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+
 //    DatabaseReference mNomeCorsoRef = mRootRef.child("NomeCorso");
 //    DatabaseReference mCorsoRef = mRootRef.child(corsoNotifica);
 //    DatabaseReference mMessaggioRef = mCorsoRef.child("Messaggio");
@@ -69,6 +70,8 @@ public class NoticeBoardFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
+        final Corsi_DBHandler db_corsi = new Corsi_DBHandler(context);
+
         //prepareMessageData();
 
 //        mRootRef.addValueEventListener(new ValueEventListener() {
@@ -93,20 +96,38 @@ public class NoticeBoardFragment extends Fragment {
         mRootRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Log.i("_", "add " + dataSnapshot);
+
+                List<Corso> iscrizione_corsi = db_corsi.getAllCorsi();
+                for (Corso c : iscrizione_corsi) {
+                    if(dataSnapshot.getKey().toString()==c.getNome_Corso())
+                        Log.i("_", "add " + dataSnapshot);
+                    else
+                        Log.i("_", "Non iscritto al corso");
+                }
+
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                List<Corso> iscrizione_corsi = db_corsi.getAllCorsi();
 //                Log.i("_", "changed " + dataSnapshot);
 //                corsoNotifica=dataSnapshot.getValue(String.class);
 //                corsoNotifica = dataSnapshot.child("NomeCorso").getValue(String.class);
 //                Toast.makeText(context,corsoNotifica,Toast.LENGTH_LONG).show();
                 String title =dataSnapshot.getKey().toString();
                 String text = dataSnapshot.child("Messaggio").getValue(String.class);
-//                Toast.makeText(context, title+" - "+text, Toast.LENGTH_LONG).show();
-                Toast.makeText(context, " - "+text, Toast.LENGTH_LONG).show();
-                prepareMessageData(title, text);
+                Boolean flag = false;
+                for (Corso c : iscrizione_corsi) {
+                    if(title.equals(c.getNome_Corso())){
+//                      Toast.makeText(context, title+" - "+text, Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, " - "+text, Toast.LENGTH_LONG).show();
+                        prepareMessageData(title, text);
+                        flag=true;
+                        break;
+                    }
+                }
+                if(!flag)
+                    Toast.makeText(context,"Non iscritto al corso",Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -232,7 +253,8 @@ public class NoticeBoardFragment extends Fragment {
     public String getDate(){
         Calendar rightNow = Calendar.getInstance();
         int day_of_the_month = rightNow.get(Calendar.DAY_OF_MONTH);
-        int month = rightNow.get(Calendar.MONTH);
+        //AGGIUNGO UN UNO PERCHE' L'INDICIZZAZIONE DEI MESI PARTE DA 0 -.-
+        int month = rightNow.get(Calendar.MONTH)+1;
         int year = rightNow.get(Calendar.YEAR);
         int hours = rightNow.get(Calendar.HOUR_OF_DAY);
         int minuts = rightNow.get(Calendar.MINUTE);
