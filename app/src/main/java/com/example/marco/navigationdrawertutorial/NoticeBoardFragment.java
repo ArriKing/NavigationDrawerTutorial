@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 public class NoticeBoardFragment extends Fragment {
 
@@ -98,7 +99,7 @@ public class NoticeBoardFragment extends Fragment {
         mRootRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Log.i("_", "add " + dataSnapshot);
+                Log.i("_", "add " + dataSnapshot.toString());
             }
 
             @Override
@@ -110,28 +111,31 @@ public class NoticeBoardFragment extends Fragment {
                 Boolean flag = false;
                 for (Corso c : iscrizione_corsi) {
                     if(title.equals(c.getNome_Corso())){
-                        prepareMessageData(title, text);
+//                        prepareMessageData(title, text);
                         flag=true;
                         break;
                     }
                 }
+                if(flag)
+                    prepareMessageData(title, text);
               // if(flag)
                    //refreshFragment();
+//                mRootRef.child(title).child("Messaggio").setValue("-aaa-");
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.i("_", "removed " + dataSnapshot);
+                Log.i("_", "removed " + dataSnapshot.toString());
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                Log.i("_", "moved " + dataSnapshot);
+                Log.i("_", "moved " + dataSnapshot.toString());
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.i("_", "error " + databaseError);
+                Log.i("_", "error " + databaseError.toString());
             }
         });
 
@@ -240,7 +244,8 @@ public class NoticeBoardFragment extends Fragment {
 
     //METODO CALENDAR PER LA DATA
     public String getDate(){
-        Calendar rightNow = Calendar.getInstance();
+        Calendar rightNow = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        rightNow.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
         int day_of_the_month = rightNow.get(Calendar.DAY_OF_MONTH);
         //AGGIUNGO UN UNO PERCHE' L'INDICIZZAZIONE DEI MESI PARTE DA 0 -.-
         int month = rightNow.get(Calendar.MONTH)+1;
