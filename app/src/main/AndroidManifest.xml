@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.marco.navigationdrawertutorial">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <!-- Pagina principale -->
         <activity
             android:name=".MainActivity"
@@ -20,21 +23,22 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-          <!--Activity Orario-->
+            <!-- Activity Orario -->
         </activity>
-        <activity android:name=".ClassActivity"
+        <activity
+            android:name=".ClassActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity">
-        </activity>
-        <!--Activity Iscrizioni-->
-        <activity android:name=".AccountActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"></activity>
+        <!-- Activity Iscrizioni -->
+        <activity
+            android:name=".AccountActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity">
-        </activity>
-        <!--Activity Iscrizioni-->
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"></activity>
+        <!-- Activity Iscrizioni -->
 
+        <activity android:name=".NoticeBoardActivity"></activity>
     </application>
 
 </manifest>

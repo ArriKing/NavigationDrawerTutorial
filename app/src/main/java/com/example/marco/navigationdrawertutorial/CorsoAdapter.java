@@ -12,23 +12,21 @@ import java.util.List;
  * Created by rm on 19/05/2017.
  */
 
-public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHolder>  {
+public class CorsoAdapter extends RecyclerView.Adapter<CorsoAdapter.MyViewHolder>  {
 
-    private List<Messaggio> messageList;
+    private List<Corso> corsoList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, msg_time, description;
+        public TextView title;
 
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
-            description = (TextView) view.findViewById(R.id.description);
-            //msg_time = (TextView) view.findViewById(R.id.msg_time);
         }
     }
 
-    public MessageAdapter(List<Messaggio> messageList){
-        this.messageList=messageList;
+    public CorsoAdapter(List<Corso> corsoList){
+        this.corsoList =corsoList;
     }
 
     @Override
@@ -41,16 +39,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Messaggio msg = messageList.get(position);
-        holder.title.setText(msg.getDescription());
-        holder.description.setText(msg.getMsg_time());
-        //holder.msg_time.setText(msg.getMsg_time());
+        Corso c = corsoList.get(position);
+        holder.title.setText(c.getNome_Corso());
     }
 
     @Override
     public int getItemCount() {
-        return messageList.size();
+        return corsoList.size();
     }
 
 }
-
