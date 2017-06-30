@@ -5,41 +5,57 @@ package com.example.marco.navigationdrawertutorial;
  */
 
 public class Messaggio {
-    private String title;
-    private String description;
-    private String msg_time;
+    private String id;
+    private String corso;
+    private String testoMessaggio;
+    private String timeStamp;
 
 
     public Messaggio() {
     }
 
-    public Messaggio(String title, String description, String msg_time) {
-        this.title = title;
-        this.description = description;
-        this.setMsg_time(msg_time);
+    public Messaggio(String id, String corso, String testoMessaggio, String timeStamp) {
+        this.id = id;
+        this.corso = corso;
+        this.testoMessaggio = testoMessaggio;
+        this.timeStamp = timeStamp;
     }
 
-    public String getTitle() {
-        return title;
+    public Messaggio(String corso, String testoMessaggio, String timeStamp) {
+        this.corso = corso;
+        this.testoMessaggio = testoMessaggio;
+        this.timeStamp = timeStamp;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getId() {
+        return id;
     }
 
-    public String getDescription() {
-        return description;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public String getCorso() {
+        return corso;
     }
 
-    public String getMsg_time() {
-        return msg_time;
+    public void setCorso(String corso) {
+        this.corso = corso;
     }
 
-    public void setMsg_time(String msg_time) {
-        this.msg_time = msg_time;
+    public String getTestoMessaggio() {
+        return testoMessaggio;
+    }
+
+    public void setTestoMessaggio(String testoMessaggio) {
+        this.testoMessaggio = testoMessaggio;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }

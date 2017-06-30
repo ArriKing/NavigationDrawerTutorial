@@ -2,8 +2,10 @@ package com.example.marco.navigationdrawertutorial;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.SparseBooleanArray;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -12,6 +14,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,22 +24,10 @@ import java.util.List;
 
 public class AccountActivity extends AppCompatActivity{
     ListView lvCorsiSeguiti;
-    ListView lvNuoviCorsi;
+    ListView lvCorsiTotali;
 
-    String[] nuoviCorsi = {
-            "21055:Analisi I",
-            "21011:Fisica I",
-            "21010:Chimica",
-            "21012:Informatica I",
-            "22012:Calcolatori elettronici",
-            "23012:Informatica II",
-            "24012:Fisica II",
-            "25052:Sistemi operativi",
-            "23042:Geometria e algebra lineare",
-            "21512:Fondamenti di automatica",
-            "21019:Economia e organizzzazione aziendale",
-            "27012:Fondamenti di elettronica"
-    };
+    private List<String> corsiSeguitiList;
+    private List<String> corsiTotaliList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,27 +35,48 @@ public class AccountActivity extends AppCompatActivity{
 
         setContentView(R.layout.info_corsi);
         //inseriamo la gestione del pulsante UP per tornare indietro
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        corsiSeguitiList=new ArrayList<>();
+        corsiTotaliList =new ArrayList<>();
     }
 
+
+//    Gestione back button
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onStart(){
         super.onStart();
 
+
         final Corsi_DBHandler db = new Corsi_DBHandler(this);
-        List<Corso> corsi = db.getAllCorsi();
+        List<Corso> allCorsi = db.getAllCorsi();
+
+        for(int i=0; i<allCorsi.size(); i++)
+            corsiSeguitiList.add(allCorsi.get(i).getNome_Corso());
 
 //GESTIONE CORSI SEGUITI
-        //estraiamo tutti i corsi e li salviamo in una lista
-        String[] corsiSeguiti = new String[corsi.size()];
-        for(int i=0;i<corsi.size();i++){
-            corsiSeguiti[i]=corsi.get(i).getNome_Corso();
-        }
+        //estraiamo tutti i allCorsi e li salviamo in una lista
+//
+//        String[] corsiSeguiti = new String[allCorsi.size()];
+//        for(int i=0;i<allCorsi.size();i++){
+//            corsiSeguiti[i]=allCorsi.get(i).getNome_Corso();
+//        }
         //setto la ListView
         lvCorsiSeguiti =(ListView)findViewById(R.id.lv_corsi_seguiti);
-        ArrayAdapter<String> adapterSeguiti = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, corsiSeguiti);
         lvCorsiSeguiti.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+//        ArrayAdapter<String> adapterSeguiti = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, corsiSeguiti);
+        ArrayAdapter<String> adapterSeguiti = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, corsiSeguitiList);
         lvCorsiSeguiti.setAdapter(adapterSeguiti);
         ListUtils.setDynamicHeight(lvCorsiSeguiti);
 
@@ -82,36 +95,63 @@ public class AccountActivity extends AppCompatActivity{
                         db.deleteCorso(lvCorsiSeguiti.getItemAtPosition(i).toString());
                     }
                 }
-                refreshActivity();
+
+
+
+
+                final Corsi_DBHandler db = new Corsi_DBHandler(AccountActivity.this);
+                List<Corso> allCorsi = db.getAllCorsi();
+                corsiSeguitiList.clear();
+                for(int i=0; i<allCorsi.size(); i++)
+                    corsiSeguitiList.add(allCorsi.get(i).getNome_Corso());
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(AccountActivity.this, android.R.layout.simple_list_item_multiple_choice, corsiSeguitiList);
+                lvCorsiSeguiti.setAdapter(adapter);
+                ListUtils.setDynamicHeight(lvCorsiSeguiti);
+//                refreshActivity();
             }});
 
 //GESTIONE CORSI DA SEGUIRE
         //Gestione ListView
-        lvNuoviCorsi =(ListView)findViewById(R.id.lv_nuovi_corsi);
-        ArrayAdapter<String> adapterNuovi = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, nuoviCorsi);
-        lvNuoviCorsi.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        lvNuoviCorsi.setAdapter(adapterNuovi);
-//        ListUtils.setDynamicHeight(lvNuoviCorsi);
+        corsiTotaliList = Arrays.asList(getResources().getStringArray(R.array.nuovi_corsi));
+        lvCorsiTotali =(ListView)findViewById(R.id.lv_nuovi_corsi);
+        ArrayAdapter<String> adapterNuovi = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, corsiTotaliList);
+//        ArrayAdapter<String> adapterNuovi = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, nuoviCorsi);
+        lvCorsiTotali.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        lvCorsiTotali.setAdapter(adapterNuovi);
+//        ListUtils.setDynamicHeight(lvCorsiTotali);
 
         Button followCorsoBtn=(Button)findViewById(R.id.bt_segui_corso);
         followCorsoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String selected="";
-                SparseBooleanArray sparseBooleanArray = lvNuoviCorsi.getCheckedItemPositions();
+                SparseBooleanArray sparseBooleanArray = lvCorsiTotali.getCheckedItemPositions();
                 if(sparseBooleanArray.size()==0){
                     Toast.makeText(getApplicationContext(),"Seleziona un corso",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                for(int i = 0; i < lvNuoviCorsi.getCount(); i++){
+                for(int i = 0; i < lvCorsiTotali.getCount(); i++){
                     if(sparseBooleanArray.get(i)) {
-                        selected+= lvNuoviCorsi.getItemAtPosition(i).toString() + ",";
+                        selected+= lvCorsiTotali.getItemAtPosition(i).toString() + ",";
                     }
                 }
                 //aggiorno il db
                 addToDBCorso(selected);
+
                 //ricarico l'activity
-                refreshActivity();
+
+
+                final Corsi_DBHandler db = new Corsi_DBHandler(AccountActivity.this);
+                List<Corso> allCorsi = db.getAllCorsi();
+                corsiSeguitiList.clear();
+                for(int i=0; i<allCorsi.size(); i++)
+                    corsiSeguitiList.add(allCorsi.get(i).getNome_Corso());
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(AccountActivity.this, android.R.layout.simple_list_item_multiple_choice, corsiSeguitiList);
+                lvCorsiSeguiti.setAdapter(adapter);
+                ListUtils.setDynamicHeight(lvCorsiSeguiti);
+//                refreshActivity();
             }
         });
 
@@ -145,7 +185,7 @@ public class AccountActivity extends AppCompatActivity{
         startActivity(intent);
     }
 
-//CLASSE UTILS
+//CLASSE UTILS LISTVIEW
     public static class ListUtils {
         public static void setDynamicHeight(ListView mListView) {
             ListAdapter mListAdapter = mListView.getAdapter();
@@ -161,10 +201,10 @@ public class AccountActivity extends AppCompatActivity{
                 height += listItem.getMeasuredHeight()+60;
             }
             ViewGroup.LayoutParams params = mListView.getLayoutParams();
-            if(height<=500)
-                params.height = height + ((mListView.getDividerHeight() + 1) * (mListAdapter.getCount() -1 ));
+            if(height<=650)
+                params.height = height + ((mListView.getDividerHeight()) * (mListAdapter.getCount()));
             else
-                params.height = 500;
+                params.height = 650;
             mListView.setLayoutParams(params);
             mListView.requestLayout();
         }

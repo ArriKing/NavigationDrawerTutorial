@@ -1,5 +1,6 @@
 package com.example.marco.navigationdrawertutorial;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -110,13 +111,19 @@ public class MainActivity extends AppCompatActivity
                 newFragment = new ClassFragment();
                 break;
             case R.id.nav_notice_board:
-                newFragment = new NoticeBoardFragment();
+                Intent notibeBoardIntent=new Intent(MainActivity.this, NoticeBoardActivity.class);
+                notibeBoardIntent.putExtra("corso_selected", "Analisi I");
+                startActivity(notibeBoardIntent);
+//                newFragment = new NoticeBoardFragment();
                 break;
             case  R.id.nav_account:
-                newFragment = new AccountFragment();
+                Intent accountIntent=new Intent(MainActivity.this, AccountActivity.class);
+                startActivity(accountIntent);
+//                newFragment = new AccountFragment();
                 break;
             case  R.id.nav_info:
-                newFragment = new InfoFragment();
+
+//                newFragment = new InfoFragment();
                 break;
         }
 

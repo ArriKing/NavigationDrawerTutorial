@@ -122,7 +122,7 @@ public class ClassFragment extends DialogFragment {
                     startActivity(intent);
                 }
                else
-                    Toast.makeText(getActivity(),"Orario di Fine inferiore ad orario d'inizio !", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Orario di Fine inferiore ad orario d'inizio!", Toast.LENGTH_LONG).show();
             }
 
         });

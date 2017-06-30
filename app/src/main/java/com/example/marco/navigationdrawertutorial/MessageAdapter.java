@@ -42,8 +42,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Messaggio msg = messageList.get(position);
-        holder.title.setText(msg.getDescription());
-        holder.description.setText(msg.getMsg_time());
+        holder.title.setText(msg.getTestoMessaggio());
+        holder.description.setText(msg.getTimeStamp());
         //holder.msg_time.setText(msg.getMsg_time());
     }
 

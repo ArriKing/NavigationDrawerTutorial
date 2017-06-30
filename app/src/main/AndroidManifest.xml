@@ -38,7 +38,10 @@
             android:screenOrientation="portrait"></activity>
         <!-- Activity Iscrizioni -->
 
-        <activity android:name=".NoticeBoardActivity"></activity>
+        <activity android:name=".NoticeBoardActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

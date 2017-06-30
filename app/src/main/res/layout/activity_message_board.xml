@@ -7,14 +7,12 @@
     android:orientation="vertical"
     tools:context="com.example.marco.navigationdrawertutorial.NoticeBoardActivity">
 
-
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_message"
+    <ListView
+        android:id="@+id/lvMessaggi"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical" />
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>
 

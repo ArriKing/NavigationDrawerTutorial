@@ -46,9 +46,9 @@ public class Messaggi_DBHandler extends SQLiteOpenHelper {
     public void addMsg(Messaggio messaggio) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_CORSO, messaggio.getTitle()); //Corso di cui il messaggio parla
-        values.put(KEY_MESSAGGIO, messaggio.getDescription()); // Contenuto del messaggio
-        values.put(KEY_DATA, messaggio.getMsg_time());//ora e data del messaggio
+        values.put(KEY_CORSO, messaggio.getCorso()); //Corso di cui il messaggio parla
+        values.put(KEY_MESSAGGIO, messaggio.getTestoMessaggio()); // Contenuto del messaggio
+        values.put(KEY_DATA, messaggio.getTimeStamp());//ora e data del messaggio
 // Inserting Row
         db.insert(TABLE_MESS, null, values);
         db.close(); // Closing database connection
@@ -75,9 +75,9 @@ public class Messaggi_DBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Messaggio msg = new Messaggio();
-                msg.setDescription(cursor.getString(2));//Testo del Msg
-                msg.setTitle(cursor.getString(1));//Nome del corso a cui il msg riferisce
-                msg.setMsg_time(cursor.getString(3));//data e ora
+                msg.setTestoMessaggio(cursor.getString(2));//Testo del Msg
+                msg.setCorso(cursor.getString(1));//Nome del corso a cui il msg riferisce
+                msg.setTimeStamp(cursor.getString(3));//data e ora
 // Adding contact to list
                 MsgList.add(msg);
             } while (cursor.moveToNext());
@@ -112,7 +112,7 @@ public class Messaggi_DBHandler extends SQLiteOpenHelper {
     public void deleteMsg(Messaggio msg) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_MESS, KEY_ID + " = ?",
-                new String[] { String.valueOf(msg.getTitle()) });
+                new String[] { String.valueOf(msg.getCorso()) });
         db.close();
     }
 

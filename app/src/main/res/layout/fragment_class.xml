@@ -43,7 +43,7 @@
                 android:id="@+id/spinner_begin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/Orai_Lezioni"></Spinner>
+                android:entries="@array/Orari_Lezioni"></Spinner>
 
         </LinearLayout>
 
@@ -64,7 +64,7 @@
                 android:id="@+id/spinner_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/Orai_Lezioni"></Spinner>
+                android:entries="@array/Orari_Lezioni"></Spinner>
 
         </LinearLayout>
 

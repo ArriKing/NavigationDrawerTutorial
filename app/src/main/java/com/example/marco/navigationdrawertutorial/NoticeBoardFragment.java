@@ -42,6 +42,7 @@ public class NoticeBoardFragment extends Fragment {
     public void onStart(){
         super.onStart();
 
+        corsoList.clear();
         //GESTIONE RecycleView
         RecyclerView recyclerView=(RecyclerView)context.findViewById(R.id.recycler_view);
         mAdapter=new CorsoAdapter(corsoList);
