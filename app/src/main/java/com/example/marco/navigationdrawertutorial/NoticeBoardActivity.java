@@ -4,7 +4,9 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,6 +63,8 @@ public class NoticeBoardActivity extends AppCompatActivity {
     public void onStart(){
         super.onStart();
 
+        checkEmptyList();
+
         databaseMessages.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -82,5 +86,12 @@ public class NoticeBoardActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void checkEmptyList(){
+        if(corsiList.isEmpty()){
+            TextView tvEmptyList = (TextView)findViewById(R.id.tvEmptyList);
+            tvEmptyList.setVisibility(View.VISIBLE);
+        }
     }
 }

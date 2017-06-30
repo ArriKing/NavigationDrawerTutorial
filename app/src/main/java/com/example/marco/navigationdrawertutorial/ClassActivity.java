@@ -285,7 +285,7 @@ public class ClassActivity extends AppCompatActivity {
         if(!found)
             auleLibereList.add(al.get(index));
     }
-    //Cerco le aule libere e le aggiungo alla lista tramite il metodi addToAuleLibereList
+    //Cerco le aule libere e le aggiungo alla lista tramite il metodo addToAuleLibereList
     public void findAuleLibere(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, ArrayList<String> all){
         addToAuleOccupateList(al, ol, nl);
         for(int k=0;k<al.size();k++){
@@ -299,7 +299,7 @@ public class ClassActivity extends AppCompatActivity {
             }
         }
     }
-    //Scrivo effettivamente le aule libere trovate in tabella, in base all'edificio scelto
+    //Scrivo effettivamente le aule libere trovate in tabella nella riga, in base all'edificio scelto
     public void writeAuleLibere(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, ArrayList<String> all, TableLayout tbl, char ed){
         findAuleLibere(al, ol, nl, all);
         for(int i=0;i<all.size();i++){
@@ -319,7 +319,7 @@ public class ClassActivity extends AppCompatActivity {
             }
         }
     }
-    //Carico le righe in tabella
+    //Carico le righe scritte prima in tabella
     public void loadTableRow(ArrayList<String> al, ArrayList<String> ol, ArrayList<String> nl, ArrayList<String> all, TableLayout tbl, String[] edifici){
         for (int i = 0; i < edifici.length; i++) {
             switch(edifici[i].charAt(9)){
