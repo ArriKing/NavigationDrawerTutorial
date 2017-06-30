@@ -29,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ClassActivity extends AppCompatActivity {
+public class FreeClassActivity extends AppCompatActivity {
 
     private TableLayout stk;
     private String oraInizio;
@@ -43,7 +43,7 @@ public class ClassActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.percorso_di_studio);
+        setContentView(R.layout.activity_free_class);
         //inserisce la freccia di ritorno alla home
         //PROBLEMA:torna alla home,non al suo fragment ma al main fragment
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -71,7 +71,7 @@ public class ClassActivity extends AppCompatActivity {
         String todayUrl = "http://www03.unibg.it//orari//orario_giornaliero.php?db=IN&data=oggi&orderby=ora";
         String otherDayUrl = "http://www03.unibg.it//orari//orario_giornaliero.php?db=IN&data=30/05/2017&orderby=ora";
         //Aziono il parsing della pagina html con gli orari
-        ( new ClassActivity.ParseURL() ).execute(new String[]{todayUrl});
+        ( new FreeClassActivity.ParseURL() ).execute(new String[]{todayUrl});
 
     }
 
@@ -398,4 +398,4 @@ public class ClassActivity extends AppCompatActivity {
         }
 
   }//end ParseURL
-}//end ClassActivity
+}//end FreeClassActivity

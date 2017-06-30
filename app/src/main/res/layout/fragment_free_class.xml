@@ -9,13 +9,13 @@
     android:orientation="vertical"
     android:layout_gravity="center_horizontal"
     android:gravity="center_horizontal"
-    tools:context="com.example.marco.navigationdrawertutorial.ClassFragment">
+    tools:context="com.example.marco.navigationdrawertutorial.FreeClassFragment">
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="INSERICI L'INTERVALLO DI ORARIO:"
+        android:text="INSERISCI L'ORARIO:"
         style="@style/CustomTitle" />
 
     <LinearLayout

@@ -1,5 +1,6 @@
 package com.example.marco.navigationdrawertutorial;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NoticeBoardActivity extends AppCompatActivity {
+public class MessageBoardActivity extends AppCompatActivity {
     List<Messaggio> messageList =new ArrayList<>();
     MessageAdapter mAdapter;
     private String corso_selezionato;
@@ -39,7 +40,7 @@ public class NoticeBoardActivity extends AppCompatActivity {
         lvMessaggi=(ListView)findViewById(R.id.lvMessaggi);
         messaggeList =new ArrayList<>();
 
-        Corsi_DBHandler db_corsi = new Corsi_DBHandler(NoticeBoardActivity.this);
+        Corsi_DBHandler db_corsi = new Corsi_DBHandler(MessageBoardActivity.this);
         corsiList = db_corsi.getAllCorsi();
 
         databaseMessages = FirebaseDatabase.getInstance().getReference("messages");
@@ -77,7 +78,7 @@ public class NoticeBoardActivity extends AppCompatActivity {
                     }
                 }
 
-                MessageListAdapter adapter = new MessageListAdapter(NoticeBoardActivity.this, messaggeList);
+                MessageListAdapter adapter = new MessageListAdapter(MessageBoardActivity.this, messaggeList);
                 lvMessaggi.setAdapter(adapter);
             }
 
