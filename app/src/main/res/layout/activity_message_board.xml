@@ -8,13 +8,12 @@
     tools:context="com.example.marco.navigationdrawertutorial.MessageBoardActivity">
 
     <TextView
-        android:id="@+id/tvEmptyList"
+        android:id="@+id/tvInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         style="@style/CustomTextView"
-        android:visibility="gone"
-        android:text="Non sei ancora iscritto a nessun corso"/>
+        android:text="CARICAMENTO..."/>
 
     <ListView
         android:id="@+id/lvMessaggi"

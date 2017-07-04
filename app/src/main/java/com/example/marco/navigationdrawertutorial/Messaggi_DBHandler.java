@@ -75,8 +75,9 @@ public class Messaggi_DBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Messaggio msg = new Messaggio();
-                msg.setTestoMessaggio(cursor.getString(2));//Testo del Msg
+                msg.setId(cursor.getString(0));//ID
                 msg.setCorso(cursor.getString(1));//Nome del corso a cui il msg riferisce
+                msg.setTestoMessaggio(cursor.getString(2));//Testo del Msg
                 msg.setTimeStamp(cursor.getString(3));//data e ora
 // Adding contact to list
                 MsgList.add(msg);
@@ -116,7 +117,7 @@ public class Messaggi_DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void DeletAllMsg() {
+    public void deletAllMsg() {
 // Select All Query
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_MESS,null,null);

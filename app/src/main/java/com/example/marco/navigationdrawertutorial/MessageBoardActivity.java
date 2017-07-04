@@ -1,6 +1,5 @@
 package com.example.marco.navigationdrawertutorial;
 
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,10 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MessageBoardActivity extends AppCompatActivity {
-    List<Messaggio> messageList =new ArrayList<>();
+    List<Messaggio> messageList;
     MessageAdapter mAdapter;
-    private String corso_selezionato;
-
+    TextView tvInfo;
     ListView lvMessaggi;
 
     DatabaseReference databaseMessages;
@@ -39,8 +38,9 @@ public class MessageBoardActivity extends AppCompatActivity {
 
         lvMessaggi=(ListView)findViewById(R.id.lvMessaggi);
         messaggeList =new ArrayList<>();
+        tvInfo = (TextView)findViewById(R.id.tvInfo);
 
-        Corsi_DBHandler db_corsi = new Corsi_DBHandler(MessageBoardActivity.this);
+        final Corsi_DBHandler db_corsi = new Corsi_DBHandler(MessageBoardActivity.this);
         corsiList = db_corsi.getAllCorsi();
 
         databaseMessages = FirebaseDatabase.getInstance().getReference("messages");
@@ -64,35 +64,82 @@ public class MessageBoardActivity extends AppCompatActivity {
     public void onStart(){
         super.onStart();
 
-        checkEmptyList();
+        setTvInfo("non_iscritto");
+
+        final Messaggi_DBHandler msgDB = new Messaggi_DBHandler(MessageBoardActivity.this);
+
+// GESTIONE OFFLINE CON DB LOCALE
+        /*List<Messaggio> allMsgList = msgDB.getAllMsg();
+        if(!allMsgList.isEmpty()){
+            messaggeList.clear();
+            for(Messaggio m : allMsgList){
+                for(Corso c : corsiList) {
+                    if (c.getNome_Corso().equals(m.getCorso()))
+                        messageList.add(m);
+                }
+            }
+        }
+        MessageListAdapter adapter = new MessageListAdapter(MessageBoardActivity.this, messaggeList);
+        lvMessaggi.setAdapter(adapter);*/
+//FINE GESTIONE DB LOCALE
 
         databaseMessages.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 messaggeList.clear();
+                msgDB.deletAllMsg();
+                setTvInfo("carica");
                 for(DataSnapshot messageSnapshot : dataSnapshot.getChildren()){
                     Messaggio messaggio = messageSnapshot.getValue(Messaggio.class);
+                    msgDB.addMsg(messaggio);
                     for(Corso c : corsiList){
                         if(c.getNome_Corso().equals(messaggio.getCorso()))
                             messaggeList.add(messaggio);
                     }
                 }
-
                 MessageListAdapter adapter = new MessageListAdapter(MessageBoardActivity.this, messaggeList);
                 lvMessaggi.setAdapter(adapter);
+                setTvInfo("nascondi");
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+//                setTvInfo("no_message");
+//                Toast.makeText(MessageBoardActivity.this, databaseError.toString(), Toast.LENGTH_LONG).show();
             }
         });
+        setTvInfo("no_message");
+
     }
 
-    public void checkEmptyList(){
-        if(corsiList.isEmpty()){
-            TextView tvEmptyList = (TextView)findViewById(R.id.tvEmptyList);
-            tvEmptyList.setVisibility(View.VISIBLE);
+    public void setTvInfo(String opt){
+        switch (opt){
+            case "non_iscritto":
+//                final Corsi_DBHandler db_corsi = new Corsi_DBHandler(MessageBoardActivity.this);
+//                corsiList = db_corsi.getAllCorsi();
+                if(corsiList.isEmpty())
+                    tvInfo.setText("Non sei iscritto a nessun corso");
+                else
+                    tvInfo.setText("CARICAMENTO...");
+                tvInfo.setVisibility(View.VISIBLE);
+                break;
+            case "carica":
+                tvInfo.setText("CARICAMENTO...");
+                tvInfo.setVisibility(View.VISIBLE);
+                break;
+            case "no_message":
+                if(lvMessaggi.getCount()==0 && !corsiList.isEmpty()){
+                    tvInfo.setText("Nessun messaggio");
+                    tvInfo.setVisibility(View.VISIBLE);
+                }/*else{
+                    if(tvInfo.getText().equals("CARICAMENTO..."))
+                        tvInfo.setVisibility(View.GONE);
+                }*/
+                break;
+            case "nascondi":
+                if(tvInfo.getText().equals("CARICAMENTO...") || lvMessaggi.getCount()!=0)
+                    tvInfo.setVisibility(View.GONE);
+            default:
+                break;
         }
     }
 }
