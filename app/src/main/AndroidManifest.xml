@@ -26,12 +26,12 @@
         </activity>
         <!-- Activity Aule Libere -->
         <activity
-            android:name="com.project.rm.unifreeclassrooms.ClassActivity"
+            android:name="com.project.rm.unifreeclassrooms.FreeClassActivity"
             android:label="Aule Libere"
             android:parentActivityName="com.project.rm.unifreeclassrooms.MainActivity"
             android:screenOrientation="portrait"></activity>
         <!-- Activity Bacheca Messaggi -->
-        <activity android:name="com.project.rm.unifreeclassrooms.NoticeBoardActivity"
+        <activity android:name="com.project.rm.unifreeclassrooms.MessageBoardActivity"
             android:label="Bacheca Messaggi"
             android:parentActivityName="com.project.rm.unifreeclassrooms.MainActivity"
             android:screenOrientation="portrait"></activity>

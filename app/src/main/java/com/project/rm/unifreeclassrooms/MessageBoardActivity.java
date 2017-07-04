@@ -17,11 +17,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NoticeBoardActivity extends AppCompatActivity {
-    List<Messaggio> messageList =new ArrayList<>();
-    MessageAdapter mAdapter;
-    private String corso_selezionato;
-
+public class MessageBoardActivity extends AppCompatActivity {
+    List<Messaggio> messageList;
+    TextView tvInfo;
     ListView lvMessaggi;
 
     DatabaseReference databaseMessages;
@@ -38,8 +36,9 @@ public class NoticeBoardActivity extends AppCompatActivity {
 
         lvMessaggi=(ListView)findViewById(R.id.lvMessaggi);
         messaggeList =new ArrayList<>();
+        tvInfo = (TextView)findViewById(R.id.tvInfo);
 
-        Corsi_DBHandler db_corsi = new Corsi_DBHandler(NoticeBoardActivity.this);
+        final Corsi_DBHandler db_corsi = new Corsi_DBHandler(MessageBoardActivity.this);
         corsiList = db_corsi.getAllCorsi();
 
         databaseMessages = FirebaseDatabase.getInstance().getReference("messages");
@@ -47,7 +46,7 @@ public class NoticeBoardActivity extends AppCompatActivity {
     }
 
 
-//    Gestione back button
+    //    Gestione back button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -63,35 +62,76 @@ public class NoticeBoardActivity extends AppCompatActivity {
     public void onStart(){
         super.onStart();
 
-        checkEmptyList();
+        setTvInfo("non_iscritto");
+
+        final Messaggi_DBHandler msgDB = new Messaggi_DBHandler(MessageBoardActivity.this);
+
+// GESTIONE OFFLINE CON DB LOCALE
+        /*List<Messaggio> allMsgList = msgDB.getAllMsg();
+        if(!allMsgList.isEmpty()){
+            messaggeList.clear();
+            for(Messaggio m : allMsgList){
+                for(Corso c : corsiList) {
+                    if (c.getNome_Corso().equals(m.getCorso()))
+                        messageList.add(m);
+                }
+            }
+        }
+        MessageListAdapter adapter = new MessageListAdapter(MessageBoardActivity.this, messaggeList);
+        lvMessaggi.setAdapter(adapter);*/
+//FINE GESTIONE DB LOCALE
 
         databaseMessages.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 messaggeList.clear();
+                msgDB.deletAllMsg();
                 for(DataSnapshot messageSnapshot : dataSnapshot.getChildren()){
                     Messaggio messaggio = messageSnapshot.getValue(Messaggio.class);
+                    msgDB.addMsg(messaggio);
                     for(Corso c : corsiList){
                         if(c.getNome_Corso().equals(messaggio.getCorso()))
                             messaggeList.add(messaggio);
                     }
                 }
-
-                MessageListAdapter adapter = new MessageListAdapter(NoticeBoardActivity.this, messaggeList);
+                MessageListAdapter adapter = new MessageListAdapter(MessageBoardActivity.this, messaggeList);
                 lvMessaggi.setAdapter(adapter);
+                setTvInfo("nascondi");
+                setTvInfo("no_message");
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+//        setTvInfo("no_message");
+
     }
 
-    public void checkEmptyList(){
-        if(corsiList.isEmpty()){
-            TextView tvEmptyList = (TextView)findViewById(R.id.tvEmptyList);
-            tvEmptyList.setVisibility(View.VISIBLE);
+    public void setTvInfo(String opt){
+        switch (opt){
+            case "non_iscritto":
+                if(corsiList.isEmpty())
+                    tvInfo.setText("Non sei iscritto a nessun corso");
+                else
+                    tvInfo.setText("CARICAMENTO...");
+                tvInfo.setVisibility(View.VISIBLE);
+                break;
+            case "carica":
+                tvInfo.setText("CARICAMENTO...");
+                tvInfo.setVisibility(View.VISIBLE);
+                break;
+            case "no_message":
+                if(tvInfo.getText().equals("CARICAMENTO...") && lvMessaggi.getCount()==0){
+                    tvInfo.setText("Nessun messaggio");
+                    tvInfo.setVisibility(View.VISIBLE);
+                }
+                break;
+            case "nascondi":
+                if(tvInfo.getText().equals("CARICAMENTO...") || lvMessaggi.getCount()!=0)
+                    tvInfo.setVisibility(View.GONE);
+            default:
+                break;
         }
     }
 }

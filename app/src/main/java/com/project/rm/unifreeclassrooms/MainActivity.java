@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         //set the fragment initially
-        ClassFragment fragment =new ClassFragment();
+        FreeClassFragment fragment =new FreeClassFragment();
         FragmentManager fm = getSupportFragmentManager();
         getFragmentManager().popBackStack();
         fm.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack("HOME").commit();
@@ -48,12 +48,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-       /* DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }*/
         if (getSupportFragmentManager().findFragmentByTag("fragBack") != null) {
 
         }
@@ -100,19 +94,17 @@ public class MainActivity extends AppCompatActivity
 
         switch(item.getItemId()) {
             case R.id.nav_time_choice:
-                newFragment = new ClassFragment();
+                newFragment = new FreeClassFragment();
                 break;
             case R.id.nav_notice_board:
-                newFragment = new ClassFragment();
-                Intent notibeBoardIntent=new Intent(MainActivity.this, NoticeBoardActivity.class);
-//                notibeBoardIntent.putExtra("corso_selected", "Analisi I");
+                newFragment = new FreeClassFragment();
+                Intent notibeBoardIntent=new Intent(MainActivity.this, MessageBoardActivity.class);
                 startActivity(notibeBoardIntent);
-//                newFragment = new NoticeBoardFragment();
                 break;
             case  R.id.nav_account:
+                newFragment = new FreeClassFragment();
                 Intent accountIntent=new Intent(MainActivity.this, AccountActivity.class);
                 startActivity(accountIntent);
-//                newFragment = new AccountFragment();
                 break;
             case  R.id.nav_info:
                 newFragment = new InfoFragment();

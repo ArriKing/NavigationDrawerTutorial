@@ -32,7 +32,7 @@ public class AccountActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.info_corsi);
+        setContentView(R.layout.activity_account);
         //inseriamo la gestione del pulsante UP per tornare indietro
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

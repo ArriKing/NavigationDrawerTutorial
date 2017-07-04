@@ -26,7 +26,7 @@ import android.widget.Toast;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ClassFragment extends DialogFragment {
+public class FreeClassFragment extends DialogFragment {
     private String BOT;
     private String EOT;
 
@@ -40,7 +40,7 @@ public class ClassFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         context=getActivity();
         //Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_class, container, false);
+        return inflater.inflate(R.layout.fragment_free_class, container, false);
     }
 //VARIABILI GLOBALI PER SALVARE IL VALORE SELEZIONATO NELLO SPINNER
     private void tempo_inizio(String t){
@@ -94,7 +94,7 @@ public class ClassFragment extends DialogFragment {
         bt.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 //create an Intent object
-                Intent intent=new Intent(context, ClassActivity.class);
+                Intent intent=new Intent(context, FreeClassActivity.class);
 
                 //All'evento di onclick sul buttone controllo chi nella lista ha il check
                 //e viene messo in una stringa con , come separatore
@@ -127,48 +127,5 @@ public class ClassFragment extends DialogFragment {
 
         });
 
-        /*
-        //PROVA NOTIFICHE
-        Button btNotif=(Button)context.findViewById(R.id.bt_test);
-        btNotif.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-                getNotification();
-            }
-        });
-
-        //PROVA PARSING HTML
-        Button btHtml=(Button)context.findViewById(R.id.bt_html_test);
-        btHtml.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-                Intent intent=new Intent(context, Prova_HTML.class);
-                startActivity(intent);
-                //Toast.makeText(context,"Bravoh!",Toast.LENGTH_LONG).show();
-            }
-        });*/
-
-
-
     }//end onStart() method
-
-    public void getNotification(){
-        Toast.makeText(context,"TEST NOTIFICATION",Toast.LENGTH_LONG).show();
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
-        mBuilder.setSmallIcon(R.drawable.ic_menu_send);
-        mBuilder.setContentTitle("Notification Alert, Click Me!");
-        mBuilder.setContentText("Hi, This is Android Notification Detail!");
-        mBuilder.setAutoCancel(true);
-        //Azione sulla notifica
-        Intent notificationIntent = new Intent(context, MainActivity.class);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(MainActivity.class);
-        //Adds the Intent that starts the Activity to the top of the stack
-        stackBuilder.addNextIntent(notificationIntent);
-        PendingIntent notifPendingIntent=stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(notifPendingIntent);
-
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-// notificationID allows you to update the notification later on.
-        mNotificationManager.notify(1,mBuilder.build());
-    }
-
 }
