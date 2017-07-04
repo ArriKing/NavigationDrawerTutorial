@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:layout_gravity="center_horizontal"
     android:gravity="center_horizontal"
-    tools:context="com.example.marco.navigationdrawertutorial.ClassFragment">
+    tools:context="com.project.rm.unifreeclassrooms.ClassFragment">
 
     <TextView
         android:id="@+id/textView4"

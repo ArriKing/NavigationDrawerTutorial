@@ -10,7 +10,7 @@
     android:orientation="vertical"
     android:layout_gravity="center_horizontal"
     android:gravity="center_horizontal"
-    tools:context="com.example.marco.navigationdrawertutorial.AccountFragment">
+    tools:context="com.project.rm.unifreeclassrooms.AccountFragment">
 
     <ImageView
         android:id="@+id/imageView"

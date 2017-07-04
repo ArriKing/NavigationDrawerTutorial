@@ -1,4 +1,4 @@
-package com.example.marco.navigationdrawertutorial;
+package com.project.rm.unifreeclassrooms;
 
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;

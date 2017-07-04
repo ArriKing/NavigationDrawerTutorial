@@ -1,4 +1,4 @@
-package com.example.marco.navigationdrawertutorial;
+package com.project.rm.unifreeclassrooms;
 
 
 import android.app.Activity;

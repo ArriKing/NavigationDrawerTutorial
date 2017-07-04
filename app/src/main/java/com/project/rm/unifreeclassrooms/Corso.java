@@ -1,4 +1,4 @@
-package com.example.marco.navigationdrawertutorial;
+package com.project.rm.unifreeclassrooms;
 
 /**
  * Created by Marco on 18/05/2017.

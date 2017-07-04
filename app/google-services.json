@@ -80,6 +80,37 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858345714035:android:4449dc9d7b6d1b7b",
+        "android_client_info": {
+          "package_name": "com.project.rm.unifreeclassrooms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "858345714035-mhrvfcv0697bi9fghntld02ovbvktd2p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0zWXQ1Y5tX1ESSga0DjjVkDbGmvF8O1U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"
