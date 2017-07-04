@@ -59,7 +59,7 @@ public class NoticeBoardFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Corso corso = corsoList.get(position);
-                Intent intent=new Intent(context, NoticeBoardActivity.class);
+                Intent intent=new Intent(context, MessageBoardActivity.class);
                 intent.putExtra("corso_selected", corso.getNome_Corso());
                 startActivity(intent);
             }

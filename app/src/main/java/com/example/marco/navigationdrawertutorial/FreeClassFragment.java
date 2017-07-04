@@ -26,7 +26,7 @@ import android.widget.Toast;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ClassFragment extends DialogFragment {
+public class FreeClassFragment extends DialogFragment {
     private String BOT;
     private String EOT;
 
@@ -40,7 +40,7 @@ public class ClassFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         context=getActivity();
         //Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_class, container, false);
+        return inflater.inflate(R.layout.fragment_free_class, container, false);
     }
 //VARIABILI GLOBALI PER SALVARE IL VALORE SELEZIONATO NELLO SPINNER
     private void tempo_inizio(String t){
@@ -94,7 +94,7 @@ public class ClassFragment extends DialogFragment {
         bt.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 //create an Intent object
-                Intent intent=new Intent(context, ClassActivity.class);
+                Intent intent=new Intent(context, FreeClassActivity.class);
 
                 //All'evento di onclick sul buttone controllo chi nella lista ha il check
                 //e viene messo in una stringa con , come separatore
