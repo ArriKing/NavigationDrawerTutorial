@@ -67,7 +67,6 @@ public class AccountActivity extends AppCompatActivity{
         //setto la ListView
         lvCorsiSeguiti =(ListView)findViewById(R.id.lv_corsi_seguiti);
         lvCorsiSeguiti.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-//        ArrayAdapter<String> adapterSeguiti = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, corsiSeguiti);
         ArrayAdapter<String> adapterSeguiti = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, corsiSeguitiList);
         lvCorsiSeguiti.setAdapter(adapterSeguiti);
         ListUtils.setDynamicHeight(lvCorsiSeguiti);

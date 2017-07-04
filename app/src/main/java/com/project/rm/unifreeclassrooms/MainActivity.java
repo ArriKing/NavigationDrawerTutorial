@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity
                 newFragment = new ClassFragment();
                 break;
             case R.id.nav_notice_board:
+                newFragment = new ClassFragment();
                 Intent notibeBoardIntent=new Intent(MainActivity.this, NoticeBoardActivity.class);
 //                notibeBoardIntent.putExtra("corso_selected", "Analisi I");
                 startActivity(notibeBoardIntent);
